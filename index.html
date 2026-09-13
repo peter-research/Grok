@@ -77,6 +77,15 @@
       line-height: 1.5;
       transition: opacity 0.18s ease;
     }
+    .swatch {
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      border-radius: 0.25rem;
+      border: 1px solid #334155;
+      vertical-align: -0.15em;
+      margin-right: 0.4rem;
+    }
     .sheet {
       margin-top: 1.85rem;
       padding: 1.05rem 1.15rem;
@@ -104,10 +113,10 @@
 </head>
 <body>
   <main>
-    <span class="tag">playground · v0.5</span>
+    <span class="tag">playground · v0.6</span>
     <h1>Grok</h1>
     <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries, no tracking.</p>
-    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py tip</code></p>
+    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py color</code></p>
     <div class="row">
       <button type="button" id="go">Another line</button>
       <button type="button" id="fortune">Fortune</button>
@@ -117,6 +126,7 @@
       <button type="button" id="tip">Tip</button>
       <button type="button" id="flip">Flip a coin</button>
       <button type="button" id="dice">Roll d6</button>
+      <button type="button" id="color">Color</button>
     </div>
     <p id="line"></p>
     <section class="sheet">
@@ -132,6 +142,7 @@
         <li><code>python3 grok.py tip</code></li>
         <li><code>python3 grok.py flip</code></li>
         <li><code>python3 grok.py dice</code> / <code>dice 20</code> / <code>dice coin</code></li>
+        <li><code>python3 grok.py color</code></li>
         <li><code>python3 grok.py now</code></li>
         <li><code>python3 grok.py version</code></li>
         <li><code>python3 grok.py about</code></li>
@@ -165,7 +176,10 @@
       "A playground without play is just a directory.",
       "Clarity compounds faster than cleverness.",
       "Leave room for the next person — it might be you.",
-      "A quiet tool that works beats a loud one that almost works."
+      "A quiet tool that works beats a loud one that almost works.",
+      "The best debug is the one you never need because the name was clear.",
+      "Keep the surface small so the depth can breathe.",
+      "An honest failure message is more useful than a polite silence."
     ];
     const fortunes = [
       "Today is a good day to read the source.",
@@ -182,7 +196,9 @@
       "The best time to add a check is before you need it.",
       "Keep the interface small and the behaviour clear.",
       "A short commit message can still be kind.",
-      "Delete the clever bit if the simple bit works."
+      "Delete the clever bit if the simple bit works.",
+      "A colour that looks good in the dark is worth keeping.",
+      "The next push does not have to be perfect. It has to be better."
     ];
     const jokes = [
       "Why did the function cross the road? To get to the other side effect.",
@@ -196,7 +212,9 @@
       "There is no place like 127.0.0.1.",
       "A programmer's favourite place? The foo bar.",
       "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
-      "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'."
+      "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'.",
+      "Why do Python programmers wear glasses? Because they can't C.",
+      "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles."
     ];
     const whys = [
       "Because understanding beats guessing, most of the time.",
@@ -209,7 +227,8 @@
       "Because a short loop is better than a long explanation.",
       "Because the next person who reads this might be you.",
       "Because a good name saves ten comments.",
-      "Because shipping something small is still shipping."
+      "Because shipping something small is still shipping.",
+      "Because a quiet improvement is still an improvement."
     ];
     const ideas = [
       "Add one more original line to the quotes list.",
@@ -223,7 +242,9 @@
       "Trim a function that grew longer than it needed to be.",
       "Sync one list between the CLI and the HTML so they stay friends.",
       "Add a tip that is useful even if you ignore the rest.",
-      "Make the version command print the date of the last meaningful change."
+      "Make the version command print the date of the last meaningful change.",
+      "Add a colour command that returns a random hex.",
+      "Keep the HTML and the CLI lists within a few lines of each other."
     ];
     const tips = [
       "Name the thing after what it does, not how it feels.",
@@ -235,16 +256,21 @@
       "Ship the smallest useful change, then iterate.",
       "Read the error message twice before you change anything.",
       "Keep the happy path obvious and the edge cases explicit.",
-      "A clean git history is optional. A clear intent is not."
+      "A clean git history is optional. A clear intent is not.",
+      "A random colour can still be intentional if you choose the palette carefully."
     ];
     const el = document.getElementById("line");
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
     const show = (text) => {
       el.style.opacity = "0";
       setTimeout(() => {
-        el.textContent = text;
+        el.innerHTML = text;
         el.style.opacity = "1";
       }, 90);
+    };
+    const randomColor = () => {
+      const n = Math.floor(Math.random() * 0x1000000);
+      return "#" + n.toString(16).padStart(6, "0");
     };
     show(pick(lines));
     document.getElementById("go").addEventListener("click", () => show(pick(lines)));
@@ -258,6 +284,10 @@
     });
     document.getElementById("dice").addEventListener("click", () => {
       show("rolled " + (1 + Math.floor(Math.random() * 6)) + " (d6)");
+    });
+    document.getElementById("color").addEventListener("click", () => {
+      const c = randomColor();
+      show('<span class="swatch" style="background:' + c + '"></span>' + c);
     });
   </script>
 </body>
