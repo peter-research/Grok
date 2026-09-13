@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, flip, dice, now, version, about, check |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, flip, dice, now, version, about, check |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
@@ -27,6 +27,7 @@ python3 grok.py quote
 python3 grok.py fortune
 python3 grok.py joke
 python3 grok.py why
+python3 grok.py idea
 python3 grok.py flip
 python3 grok.py dice
 python3 grok.py dice 20

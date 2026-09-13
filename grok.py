@@ -8,7 +8,7 @@ import random
 import sys
 from datetime import datetime, timezone
 
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 
 QUOTES = (
     "Understand the universe. Then maybe have a snack.",
@@ -25,6 +25,10 @@ QUOTES = (
     "A good name is half the design.",
     "The universe does not owe you a clean stack trace, but you can still write one.",
     "Play first. Polish second. Delete third if needed.",
+    "A short function is easier to trust than a clever one.",
+    "The next line you write is the only one that matters right now.",
+    "Read the code before you change the code.",
+    "A playground without play is just a directory.",
 )
 
 FORTUNES = (
@@ -38,6 +42,9 @@ FORTUNES = (
     "Your future self will thank you for the comment you almost skipped.",
     "A one-line fix can still deserve a careful message.",
     "When in doubt, print the type and move on.",
+    "One honest commit is worth ten half-finished branches.",
+    "The best time to add a check is before you need it.",
+    "Keep the interface small and the behaviour clear.",
 )
 
 JOKES = (
@@ -48,6 +55,9 @@ JOKES = (
     "Why do programmers prefer dark mode? Because light attracts bugs.",
     "Debugging is like being the detective in a crime movie where you are also the murderer.",
     "I would tell you a UDP joke, but you might not get it.",
+    "How many programmers does it take to change a light bulb? None, that is a hardware problem.",
+    "There is no place like 127.0.0.1.",
+    "A programmer's favourite place? The foo bar.",
 )
 
 WHYS = (
@@ -58,6 +68,21 @@ WHYS = (
     "Because the playground only works if someone plays.",
     "Because original code is easier to own than borrowed complexity.",
     "Because curiosity compounds.",
+    "Because a short loop is better than a long explanation.",
+    "Because the next person who reads this might be you.",
+)
+
+IDEAS = (
+    "Add one more original line to the quotes list.",
+    "Make the self-check a little stricter.",
+    "Give the landing page a quieter colour accent.",
+    "Document a command that does not exist yet, then invent it.",
+    "Add a tiny test that the version string still looks like a version.",
+    "Write a fortune that mentions the commit message.",
+    "Make the dice command accept a word like 'coin' and still work.",
+    "Add a one-line comment that future-you will actually thank.",
+    "Trim a function that grew longer than it needed to be.",
+    "Sync one list between the CLI and the HTML so they stay friends.",
 )
 
 ABOUT = (
@@ -90,6 +115,10 @@ def why() -> str:
     return random.choice(WHYS)
 
 
+def idea() -> str:
+    return random.choice(IDEAS)
+
+
 def flip() -> str:
     return random.choice(("heads", "tails"))
 
@@ -106,15 +135,17 @@ def now_utc() -> str:
 
 def self_check() -> str:
     checks = []
-    checks.append(("quotes", len(QUOTES) >= 10))
-    checks.append(("fortunes", len(FORTUNES) >= 8))
-    checks.append(("jokes", len(JOKES) >= 5))
-    checks.append(("whys", len(WHYS) >= 5))
+    checks.append(("quotes", len(QUOTES) >= 15))
+    checks.append(("fortunes", len(FORTUNES) >= 10))
+    checks.append(("jokes", len(JOKES) >= 8))
+    checks.append(("whys", len(WHYS) >= 7))
+    checks.append(("ideas", len(IDEAS) >= 8))
     checks.append(("greet", "Hey" in greet("tester")))
     checks.append(("flip", flip() in {"heads", "tails"}))
     checks.append(("dice", "rolled" in dice(6)))
     checks.append(("joke", len(joke()) > 10))
     checks.append(("why", len(why()) > 10))
+    checks.append(("idea", len(idea()) > 10))
     checks.append(("now", "T" in now_utc() and now_utc().endswith("Z")))
     checks.append(("version", VERSION.count(".") == 2))
     failed = [name for name, ok in checks if not ok]
@@ -137,6 +168,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("fortune", help="print a short original fortune")
     sub.add_parser("joke", help="print a short original joke")
     sub.add_parser("why", help="print a short original reason")
+    sub.add_parser("idea", help="print a tiny playground idea")
     sub.add_parser("flip", help="flip a coin")
 
     dice_p = sub.add_parser("dice", help="roll a die (default d6)")
@@ -171,6 +203,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "why":
         print(why())
+        return 0
+    if args.cmd == "idea":
+        print(idea())
         return 0
     if args.cmd == "flip":
         print(flip())
