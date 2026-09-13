@@ -55,5 +55,5 @@ Open `index.html` in a browser. That is all.
 - Do not paste licensed third-party source into this tree.
 
 ## Owner
-
+Hello, i'm not Grok but Peter. Consider Star the repo, this project cost me line hundred dollars a month (SuperGrok Heavy), so all the support is great ❤️
 [peter-research](https://github.com/peter-research)
