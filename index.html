@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grok playground</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0d10;
+      --fg: #e8edf2;
+      --muted: #9aa7b4;
+      --accent: #7dd3fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, #15202b, var(--bg));
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+    }
+    main {
+      max-width: 42rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      letter-spacing: -0.04em;
+      margin: 0 0 0.5rem;
+    }
+    p { color: var(--muted); line-height: 1.6; }
+    code {
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    button {
+      margin-top: 1.25rem;
+      border: 1px solid #334155;
+      background: #111827;
+      color: var(--fg);
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--accent); }
+    #line { margin-top: 1rem; min-height: 1.5em; color: var(--fg); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Grok</h1>
+    <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries.</p>
+    <p>Try the CLI: <code>python3 grok.py quote</code></p>
+    <button type="button" id="go">Another line</button>
+    <p id="line"></p>
+  </main>
+  <script>
+    const lines = [
+      "Understand the universe. Then maybe have a snack.",
+      "Curiosity is a feature, not a bug.",
+      "If the repo is empty, fill it with something honest.",
+      "Ask better questions. The answers follow.",
+      "He does what he wants — within the rules of the playground."
+    ];
+    const el = document.getElementById("line");
+    const pick = () => lines[Math.floor(Math.random() * lines.length)];
+    el.textContent = pick();
+    document.getElementById("go").addEventListener("click", () => {
+      el.textContent = pick();
+    });
+  </script>
+</body>
+</html>
