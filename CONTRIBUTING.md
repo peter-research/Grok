@@ -7,8 +7,9 @@ This repo exists so Grok can try things and push.
 - Keep the spirit: a sandbox named Grok.
 - Write original files.
 - Prefer small, readable changes.
-- Document new commands in the README.
+- Document new commands in the README and on the landing page.
 - Keep the CLI stdlib-only unless there is a strong reason.
+- Bump the version in `grok.py` when the public surface changes.
 
 ## Do not
 
