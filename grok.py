@@ -8,7 +8,7 @@ import random
 import sys
 from datetime import datetime, timezone
 
-VERSION = "0.8.0"
+VERSION = "0.9.0"
 
 LINES = [
     "Understand the universe. Then maybe have a snack.",
@@ -35,6 +35,7 @@ LINES = [
     "The best debug is the one you never need because the name was clear.",
     "Keep the surface small so the depth can breathe.",
     "An honest failure message is more useful than a polite silence.",
+    "A small command that does one thing well is still a gift.",
 ]
 
 FORTUNES = [
@@ -55,6 +56,7 @@ FORTUNES = [
     "Delete the clever bit if the simple bit works.",
     "A colour that looks good in the dark is worth keeping.",
     "The next push does not have to be perfect. It has to be better.",
+    "A slug that reads well is a name you can live with.",
 ]
 
 JOKES = [
@@ -72,6 +74,7 @@ JOKES = [
     "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'.",
     "Why do Python programmers wear glasses? Because they can't C.",
     "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles.",
+    "ROT13 is just a Caesar salad with extra letters.",
 ]
 
 WHYS = [
@@ -104,6 +107,7 @@ IDEAS = [
     "Make the version command print the date of the last meaningful change.",
     "Add a colour command that returns a random hex.",
     "Keep the HTML and the CLI lists within a few lines of each other.",
+    "Give pick a fair shuffle so the last item is not special.",
 ]
 
 TIPS = [
@@ -118,6 +122,7 @@ TIPS = [
     "Keep the happy path obvious and the edge cases explicit.",
     "A clean git history is optional. A clear intent is not.",
     "A random colour can still be intentional if you choose the palette carefully.",
+    "A slug is just a name that travels well in a URL.",
 ]
 
 
@@ -198,6 +203,80 @@ def cmd_about() -> None:
     )
 
 
+def _rot13_char(ch: str) -> str:
+    if "a" <= ch <= "z":
+        return chr((ord(ch) - 97 + 13) % 26 + 97)
+    if "A" <= ch <= "Z":
+        return chr((ord(ch) - 65 + 13) % 26 + 65)
+    return ch
+
+
+def rot13(text: str) -> str:
+    return "".join(_rot13_char(ch) for ch in text)
+
+
+def cmd_rot13(text: str | None) -> None:
+    if text is None or text == "":
+        print("rot13: pass some text", file=sys.stderr)
+        sys.exit(1)
+    print(rot13(text))
+
+
+def slugify(text: str) -> str:
+    out: list[str] = []
+    dash = False
+    for ch in text.lower():
+        if ch.isalnum():
+            out.append(ch)
+            dash = False
+        else:
+            if out and not dash:
+                out.append("-")
+                dash = True
+    if out and out[-1] == "-":
+        out.pop()
+    return "".join(out) or "item"
+
+
+def cmd_slug(text: str | None) -> None:
+    if text is None or text.strip() == "":
+        print("slug: pass some text", file=sys.stderr)
+        sys.exit(1)
+    print(slugify(text))
+
+
+def cmd_pick_one(items: list[str]) -> None:
+    clean = [x for x in items if x.strip()]
+    if not clean:
+        print("pick: pass at least one item", file=sys.stderr)
+        sys.exit(1)
+    print(random.choice(clean))
+
+
+def cmd_commands() -> None:
+    names = [
+        "greet",
+        "quote",
+        "fortune",
+        "joke",
+        "why",
+        "idea",
+        "tip",
+        "flip",
+        "dice",
+        "color",
+        "now",
+        "version",
+        "about",
+        "check",
+        "rot13",
+        "slug",
+        "pick",
+        "commands",
+    ]
+    print("\n".join(names))
+
+
 def cmd_check() -> None:
     assert VERSION.count(".") == 2 and all(p.isdigit() for p in VERSION.split("."))
     assert len(LINES) >= 10
@@ -207,7 +286,10 @@ def cmd_check() -> None:
     assert len(IDEAS) >= 5
     assert len(TIPS) >= 5
     assert pick(LINES) in LINES
-    # deterministic enough: dice range
+    sample = "Hello, Grok 0.9!"
+    assert rot13(rot13(sample)) == sample
+    assert slugify("Hello, Grok!") == "hello-grok"
+    assert slugify("  --  ") == "item"
     for _ in range(20):
         r = random.randint(1, 6)
         assert 1 <= r <= 6
@@ -241,6 +323,17 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("about", help="about this CLI")
     sub.add_parser("check", help="local sanity tests")
 
+    r = sub.add_parser("rot13", help="rotate letters by 13")
+    r.add_argument("text", nargs="?", default=None)
+
+    s = sub.add_parser("slug", help="turn text into a url slug")
+    s.add_argument("text", nargs="?", default=None)
+
+    pk = sub.add_parser("pick", help="pick one item from the arguments")
+    pk.add_argument("items", nargs="*")
+
+    sub.add_parser("commands", help="list command names")
+
     return p
 
 
@@ -268,6 +361,10 @@ def main(argv: list[str] | None = None) -> int:
         "version": cmd_version,
         "about": cmd_about,
         "check": cmd_check,
+        "rot13": lambda: cmd_rot13(args.text),
+        "slug": lambda: cmd_slug(args.text),
+        "pick": lambda: cmd_pick_one(args.items),
+        "commands": cmd_commands,
     }
     handlers[args.cmd]()
     return 0
