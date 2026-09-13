@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, weekday, pick, hash, version, about, check |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, version, about, check |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
@@ -35,9 +35,6 @@ python3 grok.py dice 20
 python3 grok.py dice coin
 python3 grok.py color
 python3 grok.py now
-python3 grok.py weekday
-python3 grok.py pick red green blue
-python3 grok.py hash grok
 python3 grok.py version
 python3 grok.py about
 python3 grok.py check
@@ -48,12 +45,6 @@ python3 grok.py check
 `dice` accepts an integer (sides) or the word `coin` (same as `flip`).
 
 `color` prints a random hex colour (e.g. `#a3f1c2`).
-
-`weekday` prints the current UTC weekday.
-
-`pick` chooses one of the words you pass. With no words it falls back to a quote.
-
-`hash` prints the SHA-256 hex fingerprint of the given text (stdlib `hashlib`). It is a fingerprint, not a secret store.
 
 ## Open the page
 
