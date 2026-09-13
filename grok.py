@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import random
 import sys
+import uuid
 from datetime import datetime, timezone
 
-VERSION = "0.9.0"
+VERSION = "0.10.0"
 
 LINES = [
     "Understand the universe. Then maybe have a snack.",
@@ -36,6 +38,8 @@ LINES = [
     "Keep the surface small so the depth can breathe.",
     "An honest failure message is more useful than a polite silence.",
     "A small command that does one thing well is still a gift.",
+    "A hash is just a fingerprint that does not argue.",
+    "A week number is a calendar that learned to count.",
 ]
 
 FORTUNES = [
@@ -57,6 +61,7 @@ FORTUNES = [
     "A colour that looks good in the dark is worth keeping.",
     "The next push does not have to be perfect. It has to be better.",
     "A slug that reads well is a name you can live with.",
+    "A UUID is uniqueness without asking for a name first.",
 ]
 
 JOKES = [
@@ -75,6 +80,7 @@ JOKES = [
     "Why do Python programmers wear glasses? Because they can't C.",
     "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles.",
     "ROT13 is just a Caesar salad with extra letters.",
+    "I asked the palindrome if it was coming or going. It said racecar.",
 ]
 
 WHYS = [
@@ -123,6 +129,32 @@ TIPS = [
     "A clean git history is optional. A clear intent is not.",
     "A random colour can still be intentional if you choose the palette carefully.",
     "A slug is just a name that travels well in a URL.",
+]
+
+COMMAND_NAMES = [
+    "greet",
+    "quote",
+    "fortune",
+    "joke",
+    "why",
+    "idea",
+    "tip",
+    "flip",
+    "dice",
+    "color",
+    "now",
+    "week",
+    "version",
+    "about",
+    "check",
+    "rot13",
+    "slug",
+    "hash",
+    "uuid",
+    "palindrome",
+    "pick",
+    "shuffle",
+    "commands",
 ]
 
 
@@ -191,6 +223,12 @@ def cmd_now() -> None:
     print(datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"))
 
 
+def cmd_week() -> None:
+    now = datetime.now(timezone.utc)
+    iso = now.isocalendar()
+    print(f"{iso.year}-W{iso.week:02d}-{iso.weekday} UTC")
+
+
 def cmd_version() -> None:
     print(VERSION)
 
@@ -245,6 +283,29 @@ def cmd_slug(text: str | None) -> None:
     print(slugify(text))
 
 
+def cmd_hash(text: str | None) -> None:
+    if text is None or text == "":
+        print("hash: pass some text", file=sys.stderr)
+        sys.exit(1)
+    print(hashlib.sha256(text.encode("utf-8")).hexdigest())
+
+
+def cmd_uuid() -> None:
+    print(str(uuid.uuid4()))
+
+
+def is_palindrome(text: str) -> bool:
+    cleaned = [ch.lower() for ch in text if ch.isalnum()]
+    return cleaned == cleaned[::-1] and bool(cleaned)
+
+
+def cmd_palindrome(text: str | None) -> None:
+    if text is None or text.strip() == "":
+        print("palindrome: pass some text", file=sys.stderr)
+        sys.exit(1)
+    print("yes" if is_palindrome(text) else "no")
+
+
 def cmd_pick_one(items: list[str]) -> None:
     clean = [x for x in items if x.strip()]
     if not clean:
@@ -253,28 +314,17 @@ def cmd_pick_one(items: list[str]) -> None:
     print(random.choice(clean))
 
 
+def cmd_shuffle(items: list[str]) -> None:
+    clean = [x for x in items if x.strip()]
+    if not clean:
+        print("shuffle: pass at least one item", file=sys.stderr)
+        sys.exit(1)
+    random.shuffle(clean)
+    print(" ".join(clean))
+
+
 def cmd_commands() -> None:
-    names = [
-        "greet",
-        "quote",
-        "fortune",
-        "joke",
-        "why",
-        "idea",
-        "tip",
-        "flip",
-        "dice",
-        "color",
-        "now",
-        "version",
-        "about",
-        "check",
-        "rot13",
-        "slug",
-        "pick",
-        "commands",
-    ]
-    print("\n".join(names))
+    print("\n".join(COMMAND_NAMES))
 
 
 def cmd_check() -> None:
@@ -286,10 +336,14 @@ def cmd_check() -> None:
     assert len(IDEAS) >= 5
     assert len(TIPS) >= 5
     assert pick(LINES) in LINES
-    sample = "Hello, Grok 0.9!"
+    sample = "Hello, Grok 0.10!"
     assert rot13(rot13(sample)) == sample
     assert slugify("Hello, Grok!") == "hello-grok"
     assert slugify("  --  ") == "item"
+    assert is_palindrome("Race car")
+    assert not is_palindrome("Grok")
+    assert hashlib.sha256(b"abc").hexdigest().startswith("ba7816bf")
+    assert len(COMMAND_NAMES) == len(set(COMMAND_NAMES))
     for _ in range(20):
         r = random.randint(1, 6)
         assert 1 <= r <= 6
@@ -319,6 +373,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("color", help="random hex colour")
     sub.add_parser("now", help="UTC timestamp")
+    sub.add_parser("week", help="ISO week in UTC")
     sub.add_parser("version", help="print version")
     sub.add_parser("about", help="about this CLI")
     sub.add_parser("check", help="local sanity tests")
@@ -329,8 +384,19 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("slug", help="turn text into a url slug")
     s.add_argument("text", nargs="?", default=None)
 
+    h = sub.add_parser("hash", help="sha256 hex digest of text")
+    h.add_argument("text", nargs="?", default=None)
+
+    sub.add_parser("uuid", help="random uuid4")
+
+    pal = sub.add_parser("palindrome", help="yes/no palindrome check")
+    pal.add_argument("text", nargs="?", default=None)
+
     pk = sub.add_parser("pick", help="pick one item from the arguments")
     pk.add_argument("items", nargs="*")
+
+    sh = sub.add_parser("shuffle", help="shuffle the arguments")
+    sh.add_argument("items", nargs="*")
 
     sub.add_parser("commands", help="list command names")
 
@@ -358,12 +424,17 @@ def main(argv: list[str] | None = None) -> int:
         "dice": lambda: cmd_dice(args.sides),
         "color": cmd_color,
         "now": cmd_now,
+        "week": cmd_week,
         "version": cmd_version,
         "about": cmd_about,
         "check": cmd_check,
         "rot13": lambda: cmd_rot13(args.text),
         "slug": lambda: cmd_slug(args.text),
+        "hash": lambda: cmd_hash(args.text),
+        "uuid": cmd_uuid,
+        "palindrome": lambda: cmd_palindrome(args.text),
         "pick": lambda: cmd_pick_one(args.items),
+        "shuffle": lambda: cmd_shuffle(args.items),
         "commands": cmd_commands,
     }
     handlers[args.cmd]()

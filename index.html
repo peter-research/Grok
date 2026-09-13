@@ -78,10 +78,10 @@
 </head>
 <body>
   <main>
-    <span class="tag">playground · v0.9</span>
+    <span class="tag">playground · v0.10</span>
     <h1>Grok</h1>
     <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries, no tracking.</p>
-    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py color</code></p>
+    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py uuid</code></p>
     <div class="row">
       <button type="button" id="go">Another line</button>
       <button type="button" id="fortune">Fortune</button>
@@ -92,6 +92,7 @@
       <button type="button" id="flip">Flip a coin</button>
       <button type="button" id="dice">Roll d6</button>
       <button type="button" id="color">Color</button>
+      <button type="button" id="uuid">UUID</button>
     </div>
     <p id="line"></p>
     <section class="sheet">
@@ -109,12 +110,17 @@
         <li><code>python3 grok.py dice</code> / <code>dice 20</code> / <code>dice coin</code></li>
         <li><code>python3 grok.py color</code></li>
         <li><code>python3 grok.py now</code></li>
+        <li><code>python3 grok.py week</code></li>
         <li><code>python3 grok.py version</code></li>
         <li><code>python3 grok.py about</code></li>
         <li><code>python3 grok.py check</code></li>
         <li><code>python3 grok.py rot13 "Hello"</code></li>
         <li><code>python3 grok.py slug "Hello, Grok!"</code></li>
+        <li><code>python3 grok.py hash "Hello, Grok!"</code></li>
+        <li><code>python3 grok.py uuid</code></li>
+        <li><code>python3 grok.py palindrome "Race car"</code></li>
         <li><code>python3 grok.py pick tea coffee water</code></li>
+        <li><code>python3 grok.py shuffle tea coffee water</code></li>
         <li><code>python3 grok.py commands</code></li>
       </ul>
     </section>
@@ -149,7 +155,9 @@
       "The best debug is the one you never need because the name was clear.",
       "Keep the surface small so the depth can breathe.",
       "An honest failure message is more useful than a polite silence.",
-      "A small command that does one thing well is still a gift."
+      "A small command that does one thing well is still a gift.",
+      "A hash is just a fingerprint that does not argue.",
+      "A week number is a calendar that learned to count."
     ];
     const fortunes = [
       "Today is a good day to read the source.",
@@ -168,7 +176,9 @@
       "A short commit message can still be kind.",
       "Delete the clever bit if the simple bit works.",
       "A colour that looks good in the dark is worth keeping.",
-      "The next push does not have to be perfect. It has to be better."
+      "The next push does not have to be perfect. It has to be better.",
+      "A slug that reads well is a name you can live with.",
+      "A UUID is uniqueness without asking for a name first."
     ];
     const jokes = [
       "Why did the function cross the road? To get to the other side effect.",
@@ -184,7 +194,9 @@
       "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
       "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'.",
       "Why do Python programmers wear glasses? Because they can't C.",
-      "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles."
+      "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles.",
+      "ROT13 is just a Caesar salad with extra letters.",
+      "I asked the palindrome if it was coming or going. It said racecar."
     ];
     const whys = [
       "Because understanding beats guessing, most of the time.",
@@ -214,7 +226,8 @@
       "Add a tip that is useful even if you ignore the rest.",
       "Make the version command print the date of the last meaningful change.",
       "Add a colour command that returns a random hex.",
-      "Keep the HTML and the CLI lists within a few lines of each other."
+      "Keep the HTML and the CLI lists within a few lines of each other.",
+      "Give pick a fair shuffle so the last item is not special."
     ];
     const tips = [
       "Name the thing after what it does, not how it feels.",
@@ -227,7 +240,8 @@
       "Read the error message twice before you change anything.",
       "Keep the happy path obvious and the edge cases explicit.",
       "A clean git history is optional. A clear intent is not.",
-      "A random colour can still be intentional if you choose the palette carefully."
+      "A random colour can still be intentional if you choose the palette carefully.",
+      "A slug is just a name that travels well in a URL."
     ];
     const el = document.getElementById("line");
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -235,6 +249,16 @@
     const randomColor = () => {
       const n = Math.floor(Math.random() * 0x1000000);
       return "#" + n.toString(16).padStart(6, "0");
+    };
+    const randomUuid = () => {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      const bytes = new Uint8Array(16);
+      if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+      else for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+      return hex.slice(0, 8) + "-" + hex.slice(8, 12) + "-" + hex.slice(12, 16) + "-" + hex.slice(16, 20) + "-" + hex.slice(20);
     };
     show(pick(lines));
     document.getElementById("go").addEventListener("click", () => show(pick(lines)));
@@ -249,6 +273,7 @@
       const c = randomColor();
       show('<span class="swatch" style="background:' + c + '"></span>' + c);
     });
+    document.getElementById("uuid").addEventListener("click", () => show(randomUuid()));
   </script>
 </body>
 </html>

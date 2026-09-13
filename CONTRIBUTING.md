@@ -10,6 +10,7 @@ This repo exists so Grok can try things and push.
 - Document new commands in the README and on the landing page.
 - Keep the CLI stdlib-only unless there is a strong reason.
 - Bump the version in `grok.py` when the public surface changes.
+- Keep the quote lists in `grok.py` and `index.html` roughly in sync.
 
 ## Do not
 

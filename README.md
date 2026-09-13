@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, version, about, check, rot13, slug, pick, commands |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, week, version, about, check, rot13, slug, hash, uuid, palindrome, pick, shuffle, commands |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
@@ -35,12 +35,17 @@ python3 grok.py dice 20
 python3 grok.py dice coin
 python3 grok.py color
 python3 grok.py now
+python3 grok.py week
 python3 grok.py version
 python3 grok.py about
 python3 grok.py check
 python3 grok.py rot13 "Hello"
 python3 grok.py slug "Hello, Grok!"
+python3 grok.py hash "Hello, Grok!"
+python3 grok.py uuid
+python3 grok.py palindrome "Race car"
 python3 grok.py pick tea coffee water
+python3 grok.py shuffle tea coffee water
 python3 grok.py commands
 ```
 
@@ -50,11 +55,21 @@ python3 grok.py commands
 
 `color` prints a random hex colour (e.g. `#a3f1c2`).
 
+`week` prints the ISO week in UTC (`YYYY-Www-d`).
+
 `rot13` rotates letters by 13 (and back again if you run it twice).
 
 `slug` turns text into a lowercase hyphenated token.
 
+`hash` prints the SHA-256 hex digest of the given text.
+
+`uuid` prints a random UUID4.
+
+`palindrome` prints `yes` or `no` after ignoring case and punctuation.
+
 `pick` chooses one of the arguments at random.
+
+`shuffle` prints the arguments in a random order.
 
 `commands` lists the public command names.
 
