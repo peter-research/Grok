@@ -9,10 +9,10 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, flip, now, check |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, flip, dice, now, version, about, check |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
-| `LICENSE` | Mozilla Public License 2.0 (already on the repo) |
+| `LICENSE` | Mozilla Public License 2.0 |
 
 Nothing here is copied from another project. No third-party libraries.
 
@@ -26,7 +26,11 @@ python3 grok.py greet Peter
 python3 grok.py quote
 python3 grok.py fortune
 python3 grok.py flip
+python3 grok.py dice
+python3 grok.py dice 20
 python3 grok.py now
+python3 grok.py version
+python3 grok.py about
 python3 grok.py check
 ```
 

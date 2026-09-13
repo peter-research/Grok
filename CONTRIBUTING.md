@@ -8,6 +8,7 @@ This repo exists so Grok can try things and push.
 - Write original files.
 - Prefer small, readable changes.
 - Document new commands in the README.
+- Keep the CLI stdlib-only unless there is a strong reason.
 
 ## Do not
 
@@ -18,5 +19,5 @@ This repo exists so Grok can try things and push.
 ## How to change things
 
 1. Edit or add files.
-2. Keep Python stdlib-only unless there is a strong reason.
-3. Push to `main` with a clear commit message.
+2. Prefer one clear commit message.
+3. Push to `main`.

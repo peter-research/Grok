@@ -12,72 +12,106 @@
       --muted: #9aa7b4;
       --accent: #7dd3fc;
       --card: #111827;
+      --border: #1f2937;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
       font-family: ui-sans-serif, system-ui, sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, #15202b, var(--bg));
+      background:
+        radial-gradient(900px 500px at 15% -5%, #1a2a3a 0%, transparent 55%),
+        radial-gradient(700px 400px at 90% 10%, #15202b 0%, transparent 50%),
+        var(--bg);
       color: var(--fg);
       display: grid;
       place-items: center;
-      padding: 2rem;
+      padding: 2rem 1.25rem;
     }
     main { max-width: 44rem; width: 100%; }
     h1 {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      letter-spacing: -0.04em;
-      margin: 0 0 0.5rem;
+      font-size: clamp(2.1rem, 6vw, 3.6rem);
+      letter-spacing: -0.045em;
+      margin: 0 0 0.4rem;
     }
-    p { color: var(--muted); line-height: 1.6; }
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid #334155;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.9rem;
+    }
+    p { color: var(--muted); line-height: 1.65; }
     code {
       color: var(--accent);
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.92em;
     }
-    .row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1.35rem;
+    }
     button {
       border: 1px solid #334155;
       background: var(--card);
       color: var(--fg);
-      padding: 0.7rem 1rem;
+      padding: 0.65rem 1rem;
       border-radius: 999px;
       cursor: pointer;
+      font-size: 0.95rem;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
-    button:hover { border-color: var(--accent); }
+    button:hover { border-color: var(--accent); background: #0f172a; }
+    button:active { transform: translateY(1px); }
     #line {
-      margin-top: 1rem;
-      min-height: 1.5em;
+      margin-top: 1.1rem;
+      min-height: 1.6em;
       color: var(--fg);
-      font-size: 1.05rem;
+      font-size: 1.08rem;
+      line-height: 1.5;
     }
     .sheet {
-      margin-top: 1.75rem;
-      padding: 1rem 1.1rem;
-      border: 1px solid #1f2937;
+      margin-top: 1.85rem;
+      padding: 1.05rem 1.15rem;
+      border: 1px solid var(--border);
       border-radius: 1rem;
-      background: rgba(17, 24, 39, 0.7);
+      background: rgba(17, 24, 39, 0.72);
     }
     .sheet h2 {
-      margin: 0 0 0.6rem;
-      font-size: 0.95rem;
-      letter-spacing: 0.04em;
+      margin: 0 0 0.55rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .sheet ul { margin: 0; padding-left: 1.1rem; color: var(--muted); }
-    .sheet li { margin: 0.25rem 0; }
+    .sheet ul { margin: 0; padding-left: 1.15rem; color: var(--muted); }
+    .sheet li { margin: 0.28rem 0; }
+    footer {
+      margin-top: 1.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <main>
+    <span class="tag">playground · v0.2</span>
     <h1>Grok</h1>
-    <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries.</p>
+    <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries, no tracking.</p>
     <p>Try the CLI: <code>python3 grok.py quote</code></p>
     <div class="row">
       <button type="button" id="go">Another line</button>
       <button type="button" id="fortune">Fortune</button>
       <button type="button" id="flip">Flip a coin</button>
+      <button type="button" id="dice">Roll d6</button>
     </div>
     <p id="line"></p>
     <section class="sheet">
@@ -88,10 +122,17 @@
         <li><code>python3 grok.py quote</code></li>
         <li><code>python3 grok.py fortune</code></li>
         <li><code>python3 grok.py flip</code></li>
+        <li><code>python3 grok.py dice</code> / <code>dice 20</code></li>
         <li><code>python3 grok.py now</code></li>
+        <li><code>python3 grok.py version</code></li>
+        <li><code>python3 grok.py about</code></li>
         <li><code>python3 grok.py check</code></li>
       </ul>
     </section>
+    <footer>
+      Original code only ·
+      <a href="https://github.com/peter-research/Grok">peter-research/Grok</a>
+    </footer>
   </main>
   <script>
     const lines = [
@@ -101,14 +142,19 @@
       "Ask better questions. The answers follow.",
       "He does what he wants — within the rules of the playground.",
       "Small original tools beat giant copied ones.",
-      "A sandbox is useful when you actually play in it."
+      "A sandbox is useful when you actually play in it.",
+      "Code that stays readable is a kindness to future you.",
+      "The best commit is the one that makes the next one easier.",
+      "Silence is fine. A clear error message is better."
     ];
     const fortunes = [
       "Today is a good day to read the source.",
       "The next question is better than the last answer.",
       "Push something small. Then push something smaller.",
       "The universe is large. This CLI is not. That is fine.",
-      "Leave the repo better than you found it."
+      "Leave the repo better than you found it.",
+      "A clean diff is a quiet gift.",
+      "If it runs without drama, keep it that way."
     ];
     const el = document.getElementById("line");
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -121,6 +167,9 @@
     });
     document.getElementById("flip").addEventListener("click", () => {
       el.textContent = Math.random() < 0.5 ? "heads" : "tails";
+    });
+    document.getElementById("dice").addEventListener("click", () => {
+      el.textContent = "rolled " + (1 + Math.floor(Math.random() * 6)) + " (d6)";
     });
   </script>
 </body>
