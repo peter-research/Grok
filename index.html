@@ -10,7 +10,7 @@
       --bg: #0b0d10;
       --fg: #e8edf2;
       --muted: #9aa7b4;
-      --accent: #7dd3fc;
+      --accent: #67e8f9;
       --card: #111827;
       --border: #1f2937;
     }
@@ -104,16 +104,17 @@
 </head>
 <body>
   <main>
-    <span class="tag">playground · v0.4</span>
+    <span class="tag">playground · v0.5</span>
     <h1>Grok</h1>
     <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries, no tracking.</p>
-    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py idea</code></p>
+    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py tip</code></p>
     <div class="row">
       <button type="button" id="go">Another line</button>
       <button type="button" id="fortune">Fortune</button>
       <button type="button" id="joke">Joke</button>
       <button type="button" id="why">Why?</button>
       <button type="button" id="idea">Idea</button>
+      <button type="button" id="tip">Tip</button>
       <button type="button" id="flip">Flip a coin</button>
       <button type="button" id="dice">Roll d6</button>
     </div>
@@ -128,8 +129,9 @@
         <li><code>python3 grok.py joke</code></li>
         <li><code>python3 grok.py why</code></li>
         <li><code>python3 grok.py idea</code></li>
+        <li><code>python3 grok.py tip</code></li>
         <li><code>python3 grok.py flip</code></li>
-        <li><code>python3 grok.py dice</code> / <code>dice 20</code></li>
+        <li><code>python3 grok.py dice</code> / <code>dice 20</code> / <code>dice coin</code></li>
         <li><code>python3 grok.py now</code></li>
         <li><code>python3 grok.py version</code></li>
         <li><code>python3 grok.py about</code></li>
@@ -160,7 +162,10 @@
       "A short function is easier to trust than a clever one.",
       "The next line you write is the only one that matters right now.",
       "Read the code before you change the code.",
-      "A playground without play is just a directory."
+      "A playground without play is just a directory.",
+      "Clarity compounds faster than cleverness.",
+      "Leave room for the next person — it might be you.",
+      "A quiet tool that works beats a loud one that almost works."
     ];
     const fortunes = [
       "Today is a good day to read the source.",
@@ -175,7 +180,9 @@
       "When in doubt, print the type and move on.",
       "One honest commit is worth ten half-finished branches.",
       "The best time to add a check is before you need it.",
-      "Keep the interface small and the behaviour clear."
+      "Keep the interface small and the behaviour clear.",
+      "A short commit message can still be kind.",
+      "Delete the clever bit if the simple bit works."
     ];
     const jokes = [
       "Why did the function cross the road? To get to the other side effect.",
@@ -187,7 +194,9 @@
       "I would tell you a UDP joke, but you might not get it.",
       "How many programmers does it take to change a light bulb? None, that is a hardware problem.",
       "There is no place like 127.0.0.1.",
-      "A programmer's favourite place? The foo bar."
+      "A programmer's favourite place? The foo bar.",
+      "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
+      "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'."
     ];
     const whys = [
       "Because understanding beats guessing, most of the time.",
@@ -198,7 +207,9 @@
       "Because original code is easier to own than borrowed complexity.",
       "Because curiosity compounds.",
       "Because a short loop is better than a long explanation.",
-      "Because the next person who reads this might be you."
+      "Because the next person who reads this might be you.",
+      "Because a good name saves ten comments.",
+      "Because shipping something small is still shipping."
     ];
     const ideas = [
       "Add one more original line to the quotes list.",
@@ -210,7 +221,21 @@
       "Make the dice command accept a word like 'coin' and still work.",
       "Add a one-line comment that future-you will actually thank.",
       "Trim a function that grew longer than it needed to be.",
-      "Sync one list between the CLI and the HTML so they stay friends."
+      "Sync one list between the CLI and the HTML so they stay friends.",
+      "Add a tip that is useful even if you ignore the rest.",
+      "Make the version command print the date of the last meaningful change."
+    ];
+    const tips = [
+      "Name the thing after what it does, not how it feels.",
+      "Prefer a boring solution that works over a clever one that almost works.",
+      "Write the check before you need the failure message.",
+      "Delete the comment that just restates the code.",
+      "A short public interface is a gift to everyone who uses it.",
+      "If the test is hard to write, the design is telling you something.",
+      "Ship the smallest useful change, then iterate.",
+      "Read the error message twice before you change anything.",
+      "Keep the happy path obvious and the edge cases explicit.",
+      "A clean git history is optional. A clear intent is not."
     ];
     const el = document.getElementById("line");
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -227,6 +252,7 @@
     document.getElementById("joke").addEventListener("click", () => show(pick(jokes)));
     document.getElementById("why").addEventListener("click", () => show(pick(whys)));
     document.getElementById("idea").addEventListener("click", () => show(pick(ideas)));
+    document.getElementById("tip").addEventListener("click", () => show(pick(tips)));
     document.getElementById("flip").addEventListener("click", () => {
       show(Math.random() < 0.5 ? "heads" : "tails");
     });

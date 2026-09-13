@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, flip, dice, now, version, about, check |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, now, version, about, check |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
@@ -28,9 +28,11 @@ python3 grok.py fortune
 python3 grok.py joke
 python3 grok.py why
 python3 grok.py idea
+python3 grok.py tip
 python3 grok.py flip
 python3 grok.py dice
 python3 grok.py dice 20
+python3 grok.py dice coin
 python3 grok.py now
 python3 grok.py version
 python3 grok.py about
@@ -38,6 +40,8 @@ python3 grok.py check
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
+
+`dice` accepts an integer (sides) or the word `coin` (same as `flip`).
 
 ## Open the page
 

@@ -8,7 +8,7 @@ import random
 import sys
 from datetime import datetime, timezone
 
-VERSION = "0.4.0"
+VERSION = "0.5.0"
 
 QUOTES = (
     "Understand the universe. Then maybe have a snack.",
@@ -29,6 +29,9 @@ QUOTES = (
     "The next line you write is the only one that matters right now.",
     "Read the code before you change the code.",
     "A playground without play is just a directory.",
+    "Clarity compounds faster than cleverness.",
+    "Leave room for the next person — it might be you.",
+    "A quiet tool that works beats a loud one that almost works.",
 )
 
 FORTUNES = (
@@ -45,6 +48,8 @@ FORTUNES = (
     "One honest commit is worth ten half-finished branches.",
     "The best time to add a check is before you need it.",
     "Keep the interface small and the behaviour clear.",
+    "A short commit message can still be kind.",
+    "Delete the clever bit if the simple bit works.",
 )
 
 JOKES = (
@@ -58,6 +63,8 @@ JOKES = (
     "How many programmers does it take to change a light bulb? None, that is a hardware problem.",
     "There is no place like 127.0.0.1.",
     "A programmer's favourite place? The foo bar.",
+    "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
+    "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'.",
 )
 
 WHYS = (
@@ -70,6 +77,8 @@ WHYS = (
     "Because curiosity compounds.",
     "Because a short loop is better than a long explanation.",
     "Because the next person who reads this might be you.",
+    "Because a good name saves ten comments.",
+    "Because shipping something small is still shipping.",
 )
 
 IDEAS = (
@@ -83,6 +92,21 @@ IDEAS = (
     "Add a one-line comment that future-you will actually thank.",
     "Trim a function that grew longer than it needed to be.",
     "Sync one list between the CLI and the HTML so they stay friends.",
+    "Add a tip that is useful even if you ignore the rest.",
+    "Make the version command print the date of the last meaningful change.",
+)
+
+TIPS = (
+    "Name the thing after what it does, not how it feels.",
+    "Prefer a boring solution that works over a clever one that almost works.",
+    "Write the check before you need the failure message.",
+    "Delete the comment that just restates the code.",
+    "A short public interface is a gift to everyone who uses it.",
+    "If the test is hard to write, the design is telling you something.",
+    "Ship the smallest useful change, then iterate.",
+    "Read the error message twice before you change anything.",
+    "Keep the happy path obvious and the edge cases explicit.",
+    "A clean git history is optional. A clear intent is not.",
 )
 
 ABOUT = (
@@ -119,11 +143,24 @@ def idea() -> str:
     return random.choice(IDEAS)
 
 
+def tip() -> str:
+    return random.choice(TIPS)
+
+
 def flip() -> str:
     return random.choice(("heads", "tails"))
 
 
-def dice(sides: int = 6) -> str:
+def dice(sides: int | str = 6) -> str:
+    """Roll a die. Accepts an int, or the word 'coin' / 'c' for a flip."""
+    if isinstance(sides, str):
+        s = sides.strip().lower()
+        if s in {"coin", "c"}:
+            return flip()
+        try:
+            sides = int(s)
+        except ValueError:
+            sides = 6
     if sides < 2:
         sides = 6
     return f"rolled {random.randint(1, sides)} (d{sides})"
@@ -135,19 +172,24 @@ def now_utc() -> str:
 
 def self_check() -> str:
     checks = []
-    checks.append(("quotes", len(QUOTES) >= 15))
-    checks.append(("fortunes", len(FORTUNES) >= 10))
-    checks.append(("jokes", len(JOKES) >= 8))
-    checks.append(("whys", len(WHYS) >= 7))
-    checks.append(("ideas", len(IDEAS) >= 8))
+    checks.append(("quotes", len(QUOTES) >= 18))
+    checks.append(("fortunes", len(FORTUNES) >= 12))
+    checks.append(("jokes", len(JOKES) >= 10))
+    checks.append(("whys", len(WHYS) >= 9))
+    checks.append(("ideas", len(IDEAS) >= 10))
+    checks.append(("tips", len(TIPS) >= 8))
     checks.append(("greet", "Hey" in greet("tester")))
     checks.append(("flip", flip() in {"heads", "tails"}))
     checks.append(("dice", "rolled" in dice(6)))
+    checks.append(("dice_coin", dice("coin") in {"heads", "tails"}))
     checks.append(("joke", len(joke()) > 10))
     checks.append(("why", len(why()) > 10))
     checks.append(("idea", len(idea()) > 10))
+    checks.append(("tip", len(tip()) > 10))
     checks.append(("now", "T" in now_utc() and now_utc().endswith("Z")))
-    checks.append(("version", VERSION.count(".") == 2))
+    checks.append(("version", VERSION.count(".") == 2 and VERSION.startswith("0.")))
+    # no empty strings in the main lists
+    checks.append(("no_empty", all(len(x.strip()) > 5 for x in QUOTES + FORTUNES + JOKES + WHYS + IDEAS + TIPS)))
     failed = [name for name, ok in checks if not ok]
     if failed:
         return "check failed: " + ", ".join(failed)
@@ -169,10 +211,11 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("joke", help="print a short original joke")
     sub.add_parser("why", help="print a short original reason")
     sub.add_parser("idea", help="print a tiny playground idea")
+    sub.add_parser("tip", help="print a short practical tip")
     sub.add_parser("flip", help="flip a coin")
 
-    dice_p = sub.add_parser("dice", help="roll a die (default d6)")
-    dice_p.add_argument("sides", nargs="?", type=int, default=6)
+    dice_p = sub.add_parser("dice", help="roll a die (default d6); also accepts 'coin'")
+    dice_p.add_argument("sides", nargs="?", default="6")
 
     sub.add_parser("now", help="print current UTC time")
     sub.add_parser("version", help="print CLI version")
@@ -206,6 +249,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "idea":
         print(idea())
+        return 0
+    if args.cmd == "tip":
+        print(tip())
         return 0
     if args.cmd == "flip":
         print(flip())
