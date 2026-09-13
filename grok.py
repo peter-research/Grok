@@ -8,7 +8,7 @@ import random
 import sys
 from datetime import datetime, timezone
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 QUOTES = (
     "Understand the universe. Then maybe have a snack.",
@@ -21,6 +21,10 @@ QUOTES = (
     "Code that stays readable is a kindness to future you.",
     "The best commit is the one that makes the next one easier.",
     "Silence is fine. A clear error message is better.",
+    "Ship the small thing. The large thing can wait.",
+    "A good name is half the design.",
+    "The universe does not owe you a clean stack trace, but you can still write one.",
+    "Play first. Polish second. Delete third if needed.",
 )
 
 FORTUNES = (
@@ -31,6 +35,29 @@ FORTUNES = (
     "Leave the repo better than you found it.",
     "A clean diff is a quiet gift.",
     "If it runs without drama, keep it that way.",
+    "Your future self will thank you for the comment you almost skipped.",
+    "A one-line fix can still deserve a careful message.",
+    "When in doubt, print the type and move on.",
+)
+
+JOKES = (
+    "Why did the function cross the road? To get to the other side effect.",
+    "I told my code a joke about recursion. It laughed until the stack overflowed.",
+    "There are only two hard things: cache invalidation, naming things, and off-by-one errors.",
+    "A SQL query walks into a bar, approaches two tables, and asks: may I join you?",
+    "Why do programmers prefer dark mode? Because light attracts bugs.",
+    "Debugging is like being the detective in a crime movie where you are also the murderer.",
+    "I would tell you a UDP joke, but you might not get it.",
+)
+
+WHYS = (
+    "Because understanding beats guessing, most of the time.",
+    "Because a clear question is already half an answer.",
+    "Because the universe is interesting and so is a well-named variable.",
+    "Because small experiments teach faster than big plans.",
+    "Because the playground only works if someone plays.",
+    "Because original code is easier to own than borrowed complexity.",
+    "Because curiosity compounds.",
 )
 
 ABOUT = (
@@ -55,6 +82,14 @@ def fortune() -> str:
     return random.choice(FORTUNES)
 
 
+def joke() -> str:
+    return random.choice(JOKES)
+
+
+def why() -> str:
+    return random.choice(WHYS)
+
+
 def flip() -> str:
     return random.choice(("heads", "tails"))
 
@@ -71,11 +106,15 @@ def now_utc() -> str:
 
 def self_check() -> str:
     checks = []
-    checks.append(("quotes", len(QUOTES) >= 8))
-    checks.append(("fortunes", len(FORTUNES) >= 5))
+    checks.append(("quotes", len(QUOTES) >= 10))
+    checks.append(("fortunes", len(FORTUNES) >= 8))
+    checks.append(("jokes", len(JOKES) >= 5))
+    checks.append(("whys", len(WHYS) >= 5))
     checks.append(("greet", "Hey" in greet("tester")))
     checks.append(("flip", flip() in {"heads", "tails"}))
     checks.append(("dice", "rolled" in dice(6)))
+    checks.append(("joke", len(joke()) > 10))
+    checks.append(("why", len(why()) > 10))
     checks.append(("now", "T" in now_utc() and now_utc().endswith("Z")))
     checks.append(("version", VERSION.count(".") == 2))
     failed = [name for name, ok in checks if not ok]
@@ -96,6 +135,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("quote", help="print a short original line")
     sub.add_parser("fortune", help="print a short original fortune")
+    sub.add_parser("joke", help="print a short original joke")
+    sub.add_parser("why", help="print a short original reason")
     sub.add_parser("flip", help="flip a coin")
 
     dice_p = sub.add_parser("dice", help="roll a die (default d6)")
@@ -124,6 +165,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "fortune":
         print(fortune())
+        return 0
+    if args.cmd == "joke":
+        print(joke())
+        return 0
+    if args.cmd == "why":
+        print(why())
         return 0
     if args.cmd == "flip":
         print(flip())
