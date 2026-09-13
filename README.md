@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, coin flip |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, flip, now, check |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 (already on the repo) |
@@ -24,8 +24,13 @@ Needs Python 3. No packages.
 python3 grok.py
 python3 grok.py greet Peter
 python3 grok.py quote
+python3 grok.py fortune
 python3 grok.py flip
+python3 grok.py now
+python3 grok.py check
 ```
+
+`check` runs a few local sanity tests and prints `check ok` when they pass.
 
 ## Open the page
 

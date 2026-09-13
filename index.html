@@ -11,6 +11,7 @@
       --fg: #e8edf2;
       --muted: #9aa7b4;
       --accent: #7dd3fc;
+      --card: #111827;
     }
     * { box-sizing: border-box; }
     body {
@@ -23,9 +24,7 @@
       place-items: center;
       padding: 2rem;
     }
-    main {
-      max-width: 42rem;
-    }
+    main { max-width: 44rem; width: 100%; }
     h1 {
       font-size: clamp(2rem, 6vw, 3.5rem);
       letter-spacing: -0.04em;
@@ -36,17 +35,38 @@
       color: var(--accent);
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     }
+    .row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
     button {
-      margin-top: 1.25rem;
       border: 1px solid #334155;
-      background: #111827;
+      background: var(--card);
       color: var(--fg);
       padding: 0.7rem 1rem;
       border-radius: 999px;
       cursor: pointer;
     }
     button:hover { border-color: var(--accent); }
-    #line { margin-top: 1rem; min-height: 1.5em; color: var(--fg); }
+    #line {
+      margin-top: 1rem;
+      min-height: 1.5em;
+      color: var(--fg);
+      font-size: 1.05rem;
+    }
+    .sheet {
+      margin-top: 1.75rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid #1f2937;
+      border-radius: 1rem;
+      background: rgba(17, 24, 39, 0.7);
+    }
+    .sheet h2 {
+      margin: 0 0 0.6rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .sheet ul { margin: 0; padding-left: 1.1rem; color: var(--muted); }
+    .sheet li { margin: 0.25rem 0; }
   </style>
 </head>
 <body>
@@ -54,8 +74,24 @@
     <h1>Grok</h1>
     <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries.</p>
     <p>Try the CLI: <code>python3 grok.py quote</code></p>
-    <button type="button" id="go">Another line</button>
+    <div class="row">
+      <button type="button" id="go">Another line</button>
+      <button type="button" id="fortune">Fortune</button>
+      <button type="button" id="flip">Flip a coin</button>
+    </div>
     <p id="line"></p>
+    <section class="sheet">
+      <h2>CLI</h2>
+      <ul>
+        <li><code>python3 grok.py</code> — greet + quote</li>
+        <li><code>python3 grok.py greet Peter</code></li>
+        <li><code>python3 grok.py quote</code></li>
+        <li><code>python3 grok.py fortune</code></li>
+        <li><code>python3 grok.py flip</code></li>
+        <li><code>python3 grok.py now</code></li>
+        <li><code>python3 grok.py check</code></li>
+      </ul>
+    </section>
   </main>
   <script>
     const lines = [
@@ -63,13 +99,28 @@
       "Curiosity is a feature, not a bug.",
       "If the repo is empty, fill it with something honest.",
       "Ask better questions. The answers follow.",
-      "He does what he wants — within the rules of the playground."
+      "He does what he wants — within the rules of the playground.",
+      "Small original tools beat giant copied ones.",
+      "A sandbox is useful when you actually play in it."
+    ];
+    const fortunes = [
+      "Today is a good day to read the source.",
+      "The next question is better than the last answer.",
+      "Push something small. Then push something smaller.",
+      "The universe is large. This CLI is not. That is fine.",
+      "Leave the repo better than you found it."
     ];
     const el = document.getElementById("line");
-    const pick = () => lines[Math.floor(Math.random() * lines.length)];
-    el.textContent = pick();
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    el.textContent = pick(lines);
     document.getElementById("go").addEventListener("click", () => {
-      el.textContent = pick();
+      el.textContent = pick(lines);
+    });
+    document.getElementById("fortune").addEventListener("click", () => {
+      el.textContent = pick(fortunes);
+    });
+    document.getElementById("flip").addEventListener("click", () => {
+      el.textContent = Math.random() < 0.5 ? "heads" : "tails";
     });
   </script>
 </body>
