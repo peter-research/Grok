@@ -8,7 +8,7 @@ import random
 import sys
 from datetime import datetime, timezone
 
-VERSION = "0.5.0"
+VERSION = "0.6.0"
 
 QUOTES = (
     "Understand the universe. Then maybe have a snack.",
@@ -32,6 +32,9 @@ QUOTES = (
     "Clarity compounds faster than cleverness.",
     "Leave room for the next person — it might be you.",
     "A quiet tool that works beats a loud one that almost works.",
+    "The best debug is the one you never need because the name was clear.",
+    "Keep the surface small so the depth can breathe.",
+    "An honest failure message is more useful than a polite silence.",
 )
 
 FORTUNES = (
@@ -50,6 +53,8 @@ FORTUNES = (
     "Keep the interface small and the behaviour clear.",
     "A short commit message can still be kind.",
     "Delete the clever bit if the simple bit works.",
+    "A colour that looks good in the dark is worth keeping.",
+    "The next push does not have to be perfect. It has to be better.",
 )
 
 JOKES = (
@@ -65,6 +70,8 @@ JOKES = (
     "A programmer's favourite place? The foo bar.",
     "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
     "I changed my password to 'incorrect' so that whenever I forget it the computer will say 'Your password is incorrect'.",
+    "Why do Python programmers wear glasses? Because they can't C.",
+    "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles.",
 )
 
 WHYS = (
@@ -79,6 +86,7 @@ WHYS = (
     "Because the next person who reads this might be you.",
     "Because a good name saves ten comments.",
     "Because shipping something small is still shipping.",
+    "Because a quiet improvement is still an improvement.",
 )
 
 IDEAS = (
@@ -94,6 +102,8 @@ IDEAS = (
     "Sync one list between the CLI and the HTML so they stay friends.",
     "Add a tip that is useful even if you ignore the rest.",
     "Make the version command print the date of the last meaningful change.",
+    "Add a colour command that returns a random hex.",
+    "Keep the HTML and the CLI lists within a few lines of each other.",
 )
 
 TIPS = (
@@ -107,6 +117,7 @@ TIPS = (
     "Read the error message twice before you change anything.",
     "Keep the happy path obvious and the edge cases explicit.",
     "A clean git history is optional. A clear intent is not.",
+    "A random colour can still be intentional if you choose the palette carefully.",
 )
 
 ABOUT = (
@@ -166,22 +177,28 @@ def dice(sides: int | str = 6) -> str:
     return f"rolled {random.randint(1, sides)} (d{sides})"
 
 
+def color() -> str:
+    """Return a random hex colour (six digits, lowercase)."""
+    return f"#{random.randint(0, 0xFFFFFF):06x}"
+
+
 def now_utc() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def self_check() -> str:
     checks = []
-    checks.append(("quotes", len(QUOTES) >= 18))
-    checks.append(("fortunes", len(FORTUNES) >= 12))
-    checks.append(("jokes", len(JOKES) >= 10))
-    checks.append(("whys", len(WHYS) >= 9))
-    checks.append(("ideas", len(IDEAS) >= 10))
-    checks.append(("tips", len(TIPS) >= 8))
+    checks.append(("quotes", len(QUOTES) >= 22))
+    checks.append(("fortunes", len(FORTUNES) >= 15))
+    checks.append(("jokes", len(JOKES) >= 12))
+    checks.append(("whys", len(WHYS) >= 11))
+    checks.append(("ideas", len(IDEAS) >= 12))
+    checks.append(("tips", len(TIPS) >= 10))
     checks.append(("greet", "Hey" in greet("tester")))
     checks.append(("flip", flip() in {"heads", "tails"}))
     checks.append(("dice", "rolled" in dice(6)))
     checks.append(("dice_coin", dice("coin") in {"heads", "tails"}))
+    checks.append(("color", color().startswith("#") and len(color()) == 7))
     checks.append(("joke", len(joke()) > 10))
     checks.append(("why", len(why()) > 10))
     checks.append(("idea", len(idea()) > 10))
@@ -217,6 +234,7 @@ def build_parser() -> argparse.ArgumentParser:
     dice_p = sub.add_parser("dice", help="roll a die (default d6); also accepts 'coin'")
     dice_p.add_argument("sides", nargs="?", default="6")
 
+    sub.add_parser("color", help="print a random hex colour")
     sub.add_parser("now", help="print current UTC time")
     sub.add_parser("version", help="print CLI version")
     sub.add_parser("about", help="print a short about blurb")
@@ -258,6 +276,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "dice":
         print(dice(args.sides))
+        return 0
+    if args.cmd == "color":
+        print(color())
         return 0
     if args.cmd == "now":
         print(now_utc())
