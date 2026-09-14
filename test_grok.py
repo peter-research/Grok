@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-import base64
-import hashlib
 import unittest
 
 import grok
@@ -47,14 +45,14 @@ class GrokHelpersTest(unittest.TestCase):
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
         self.assertEqual(len(grok.COMMAND_NAMES), 81)
-        for name in ("fact", "mean", "median", "revwords", "factors", "fib", "unrle"):
+        for name in ("fact", "mean", "median", "revwords", "factors", "fib", "prime", "gcd", "lcm", "rot13", "slug"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.21.0")
+        self.assertEqual(grok.VERSION, "0.22.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)

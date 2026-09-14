@@ -21,7 +21,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. New in v0.21:
+See `python3 grok.py commands` for the full list. New in v0.22: advertised helpers are now wired as commands.
 
 ```bash
 python3 grok.py fact 5
@@ -29,6 +29,12 @@ python3 grok.py mean 1 2 3
 python3 grok.py median 1 3 2 4
 python3 grok.py revwords "hello grok"
 python3 grok.py factors 12
+python3 grok.py fib 10
+python3 grok.py prime 13
+python3 grok.py gcd 54 24
+python3 grok.py lcm 4 6
+python3 grok.py rot13 "Hello, Grok!"
+python3 grok.py slug "Hello, Grok!"
 python3 grok.py check
 ```
 

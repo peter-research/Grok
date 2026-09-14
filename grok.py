@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Tiny original playground CLI for the Grok repository."""
 from __future__ import annotations
-import argparse, base64, hashlib, math, random, sys, uuid
+import argparse, random, sys, uuid
 from datetime import datetime, timezone
-VERSION = "0.21.0"
+VERSION = "0.22.0"
 LINES = ["Understand the universe. Then maybe have a snack.", "Curiosity is a feature, not a bug."]
 FORTUNES = ["Today is a good day to read the source."]
 JOKES = ["Why did the function cross the road? To get to the other side effect."]
@@ -100,6 +100,13 @@ def factor_list(n):
             if i * i != n: out.append(n // i)
         i += 1
     return sorted(out)
+def parse_int(raw, name, lo=None, hi=None):
+    try: v = int(require(raw, name))
+    except ValueError:
+        print(f'{name}: need an integer', file=sys.stderr); sys.exit(1)
+    if lo is not None and v < lo or hi is not None and v > hi:
+        print(f'{name}: out of range', file=sys.stderr); sys.exit(1)
+    return v
 def cmd_greet(name):
     print(f"Hello, {name.strip() if name and name.strip() else 'friend'}. He does what he wants.")
 def cmd_quote(): print(pick(LINES))
@@ -107,11 +114,7 @@ def cmd_version(): print(VERSION)
 def cmd_about(): print(f"Grok playground CLI v{VERSION}\nOriginal code only. Stdlib only.\nRepo: https://github.com/peter-research/Grok")
 def cmd_commands(): print('\n'.join(COMMAND_NAMES))
 def cmd_fact(n):
-    raw = require(n, 'fact')
-    try: v = int(raw)
-    except ValueError:
-        print('fact: need an integer from 0 to 20', file=sys.stderr); sys.exit(1)
-    try: print(factorial_int(v))
+    try: print(factorial_int(parse_int(n, 'fact')))
     except ValueError:
         print('fact: need an integer from 0 to 20', file=sys.stderr); sys.exit(1)
 def cmd_mean(items):
@@ -131,13 +134,36 @@ def cmd_median(items):
 def cmd_revwords(t):
     print(reverse_words(require(t, 'revwords')))
 def cmd_factors(n):
-    raw = require(n, 'factors')
-    try: v = int(raw)
+    try: print(' '.join(str(x) for x in factor_list(parse_int(n, 'factors'))))
     except ValueError:
         print('factors: need an integer from 1 to 1000000', file=sys.stderr); sys.exit(1)
-    try: print(' '.join(str(x) for x in factor_list(v)))
+def cmd_fib(n):
+    try: print(nth_fib(parse_int(n, 'fib')))
     except ValueError:
-        print('factors: need an integer from 1 to 1000000', file=sys.stderr); sys.exit(1)
+        print('fib: need an integer from 0 to 92', file=sys.stderr); sys.exit(1)
+def cmd_prime(n):
+    v = parse_int(n, 'prime')
+    print('yes' if is_prime(v) else 'no')
+def cmd_gcd(items):
+    raw = items_required(items, 'gcd')
+    if len(raw) != 2:
+        print('gcd: need two integers', file=sys.stderr); sys.exit(1)
+    try: a, b = int(raw[0]), int(raw[1])
+    except ValueError:
+        print('gcd: need two integers', file=sys.stderr); sys.exit(1)
+    print(gcd_int(a, b))
+def cmd_lcm(items):
+    raw = items_required(items, 'lcm')
+    if len(raw) != 2:
+        print('lcm: need two integers', file=sys.stderr); sys.exit(1)
+    try: a, b = int(raw[0]), int(raw[1])
+    except ValueError:
+        print('lcm: need two integers', file=sys.stderr); sys.exit(1)
+    print(lcm_int(a, b))
+def cmd_rot13(t):
+    print(rot13(require(t, 'rot13')))
+def cmd_slug(t):
+    print(slugify(require(t, 'slug')))
 def cmd_check():
     assert len(COMMAND_NAMES)==len(set(COMMAND_NAMES))==81
     assert rot13(rot13('Hello, Grok!'))=='Hello, Grok!'
@@ -162,9 +188,9 @@ def build_parser():
     s=p.add_subparsers(dest='cmd')
     g=s.add_parser('greet'); g.add_argument('name', nargs='?')
     for n in ('quote','fortune','joke','why','idea','tip','flip','color','now','week','day','version','about','check','uuid','commands','yesno'): s.add_parser(n)
-    for n in ('fact','revwords','factors','echo'):
+    for n in ('fact','revwords','factors','echo','fib','prime','rot13','slug'):
         q=s.add_parser(n); q.add_argument('text', nargs='?')
-    for n in ('mean','median'):
+    for n in ('mean','median','gcd','lcm'):
         q=s.add_parser(n); q.add_argument('items', nargs='*')
     return p
 def main(argv=None):
@@ -182,9 +208,12 @@ def main(argv=None):
         'commands':cmd_commands,'yesno':lambda:print(pick(['yes','no'])),
         'fact':lambda:cmd_fact(a.text),'revwords':lambda:cmd_revwords(a.text),'factors':lambda:cmd_factors(a.text),
         'echo':lambda:print(require(a.text,'echo')),'mean':lambda:cmd_mean(a.items),'median':lambda:cmd_median(a.items),
+        'fib':lambda:cmd_fib(a.text),'prime':lambda:cmd_prime(a.text),
+        'gcd':lambda:cmd_gcd(a.items),'lcm':lambda:cmd_lcm(a.items),
+        'rot13':lambda:cmd_rot13(a.text),'slug':lambda:cmd_slug(a.text),
     }
     if a.cmd not in h:
-        print('command exists in name list; slim v0.21 core implements fact/mean/median/revwords/factors plus greet/quote/check');
+        print('command exists in name list; core implements a subset');
         return 0
     h[a.cmd](); return 0
 if __name__=='__main__':
