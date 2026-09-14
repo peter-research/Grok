@@ -21,99 +21,18 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
+See `python3 grok.py commands` for the full list. New in v0.21:
+
 ```bash
-python3 grok.py
-python3 grok.py greet Peter
-python3 grok.py quote
-python3 grok.py fortune
-python3 grok.py joke
-python3 grok.py why
-python3 grok.py idea
-python3 grok.py tip
-python3 grok.py flip
-python3 grok.py dice
-python3 grok.py dice 20
-python3 grok.py dice coin
-python3 grok.py color
-python3 grok.py now
-python3 grok.py week
-python3 grok.py day
-python3 grok.py echo "hello playground"
-python3 grok.py version
-python3 grok.py about
+python3 grok.py fact 5
+python3 grok.py mean 1 2 3
+python3 grok.py median 1 3 2 4
+python3 grok.py revwords "hello grok"
+python3 grok.py factors 12
 python3 grok.py check
-python3 grok.py rot13 "Hello"
-python3 grok.py caesar 7 "Hello"
-python3 grok.py slug "Hello, Grok!"
-python3 grok.py hash "Hello, Grok!"
-python3 grok.py uuid
-python3 grok.py palindrome "Race car"
-python3 grok.py pick tea coffee water
-python3 grok.py sample 2 tea coffee water juice
-python3 grok.py shuffle tea coffee water
-python3 grok.py reverse Grok
-python3 grok.py count "hello world"
-python3 grok.py wrap 20 "a short line that should wrap"
-python3 grok.py b64 Grok
-python3 grok.py b64 --decode R3Jvaw==
-python3 grok.py sum 1 2 3.5
-python3 grok.py title "hello grok"
-python3 grok.py upper grok
-python3 grok.py lower GROK
-python3 grok.py words "hello grok"
-python3 grok.py chars Grok
-python3 grok.py sort tea coffee water
-python3 grok.py dedupe tea tea coffee
-python3 grok.py join tea coffee --sep " / "
-python3 grok.py split "tea/coffee" --sep /
-python3 grok.py anagram listen silent
-python3 grok.py initials "Grok playground"
-python3 grok.py indent "hello" --spaces 4
-python3 grok.py percent 25 200
-python3 grok.py clamp 120 0 100
-python3 grok.py random 1 6
-python3 grok.py repeat 3 ping
-python3 grok.py morse "sos"
-python3 grok.py unique bookkeeper
-python3 grok.py yesno
-python3 grok.py leet Grok
-python3 grok.py vowels Grok
-python3 grok.py consonants Grok
-python3 grok.py pig Grok
-python3 grok.py ascii Grok
-python3 grok.py bin A
-python3 grok.py hex Grok
-python3 grok.py snake HelloGrok
-python3 grok.py camel hello_grok
-python3 grok.py nato Grok
-python3 grok.py freq Banana
-python3 grok.py entropy ab
-python3 grok.py lev kitten sitting
-python3 grok.py rle aaabbc
-python3 grok.py box Grok
-python3 grok.py roman 2026
-python3 grok.py unroman MMXXVI
-python3 grok.py isogram Grok
-python3 grok.py tap sos
-python3 grok.py fib 10
-python3 grok.py prime 13
-python3 grok.py gcd 54 24
-python3 grok.py lcm 4 6
-python3 grok.py unrle 3a2bc
-python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
-
-New in v0.20: `fib`, `prime`, `gcd`, `lcm`, `unrle`.
-
-```bash
-python3 grok.py fib 10
-python3 grok.py prime 13
-python3 grok.py gcd 54 24
-python3 grok.py lcm 4 6
-python3 grok.py unrle 3a2bc
-```
 
 ## Tests
 
