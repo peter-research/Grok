@@ -60,10 +60,28 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.count_vowels("Grok"), 1)
         self.assertEqual(grok.count_vowels("aeiou"), 5)
 
+    def test_count_consonants(self) -> None:
+        self.assertEqual(grok.count_consonants("Grok"), 3)
+        self.assertEqual(grok.count_consonants("aeiou"), 0)
+        self.assertEqual(grok.count_consonants("rhythm"), 6)
+
     def test_bin_and_hex(self) -> None:
         self.assertEqual(grok.to_bin("A"), "01000001")
         self.assertEqual(grok.to_hex("A"), "41")
         self.assertEqual(grok.to_hex("Grok"), "47726f6b")
+
+    def test_caesar_round_trip(self) -> None:
+        self.assertEqual(grok.caesar("Grok", 13), grok.rot13("Grok"))
+        self.assertEqual(grok.caesar(grok.caesar("Hello, Grok!", 7), -7), "Hello, Grok!")
+        self.assertEqual(grok.caesar("abc", 1), "bcd")
+
+    def test_pig_latin(self) -> None:
+        self.assertEqual(grok.to_pig("Grok"), "Rokgay")
+        self.assertEqual(grok.to_pig("apple"), "appleyay")
+
+    def test_ascii_codepoints(self) -> None:
+        self.assertEqual(grok.to_ascii("A"), "65")
+        self.assertEqual(grok.to_ascii("AB"), "65 66")
 
     def test_base64_round_trip(self) -> None:
         text = "Grok — playground"
@@ -78,25 +96,19 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 55)
-        self.assertIn("check", grok.COMMAND_NAMES)
-        self.assertIn("commands", grok.COMMAND_NAMES)
-        self.assertIn("wrap", grok.COMMAND_NAMES)
-        self.assertIn("sample", grok.COMMAND_NAMES)
-        self.assertIn("repeat", grok.COMMAND_NAMES)
-        self.assertIn("morse", grok.COMMAND_NAMES)
-        self.assertIn("unique", grok.COMMAND_NAMES)
-        self.assertIn("yesno", grok.COMMAND_NAMES)
-        self.assertIn("leet", grok.COMMAND_NAMES)
-        self.assertIn("vowels", grok.COMMAND_NAMES)
-        self.assertIn("bin", grok.COMMAND_NAMES)
-        self.assertIn("hex", grok.COMMAND_NAMES)
+        self.assertEqual(len(grok.COMMAND_NAMES), 59)
+        for name in (
+            "check", "commands", "wrap", "sample", "repeat", "morse",
+            "unique", "yesno", "leet", "vowels", "bin", "hex",
+            "caesar", "consonants", "pig", "ascii",
+        ):
+            self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.15.0")
+        self.assertEqual(grok.VERSION, "0.16.0")
 
 
 if __name__ == "__main__":
