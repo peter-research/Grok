@@ -83,12 +83,17 @@ python3 grok.py pig Grok
 python3 grok.py ascii Grok
 python3 grok.py bin A
 python3 grok.py hex Grok
+python3 grok.py snake HelloGrok
+python3 grok.py camel hello_grok
+python3 grok.py nato Grok
+python3 grok.py freq Banana
+python3 grok.py entropy ab
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.16: `caesar`, `consonants`, `pig`, `ascii`.
+New in v0.17: `snake`, `camel`, `nato`, `freq`, `entropy`. Pig Latin now keeps an initial vowel in place.
 
 ## Tests
 
