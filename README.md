@@ -75,12 +75,16 @@ python3 grok.py repeat 3 ping
 python3 grok.py morse "sos"
 python3 grok.py unique bookkeeper
 python3 grok.py yesno
+python3 grok.py leet Grok
+python3 grok.py vowels Grok
+python3 grok.py bin A
+python3 grok.py hex Grok
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.14: `repeat`, `morse`, `unique`, `yesno`.
+New in v0.15: `leet`, `vowels`, `bin`, `hex`.
 
 ## Tests
 

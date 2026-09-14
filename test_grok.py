@@ -52,6 +52,19 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.unique_chars("bookkeeper"), "bokepr")
         self.assertEqual(grok.unique_chars("aa"), "a")
 
+    def test_leet_maps_common_letters(self) -> None:
+        self.assertEqual(grok.to_leet("Grok"), "Gr0k")
+        self.assertEqual(grok.to_leet("TEST"), "7357")
+
+    def test_count_vowels(self) -> None:
+        self.assertEqual(grok.count_vowels("Grok"), 1)
+        self.assertEqual(grok.count_vowels("aeiou"), 5)
+
+    def test_bin_and_hex(self) -> None:
+        self.assertEqual(grok.to_bin("A"), "01000001")
+        self.assertEqual(grok.to_hex("A"), "41")
+        self.assertEqual(grok.to_hex("Grok"), "47726f6b")
+
     def test_base64_round_trip(self) -> None:
         text = "Grok — playground"
         encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
@@ -65,7 +78,7 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 51)
+        self.assertEqual(len(grok.COMMAND_NAMES), 55)
         self.assertIn("check", grok.COMMAND_NAMES)
         self.assertIn("commands", grok.COMMAND_NAMES)
         self.assertIn("wrap", grok.COMMAND_NAMES)
@@ -74,11 +87,16 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertIn("morse", grok.COMMAND_NAMES)
         self.assertIn("unique", grok.COMMAND_NAMES)
         self.assertIn("yesno", grok.COMMAND_NAMES)
+        self.assertIn("leet", grok.COMMAND_NAMES)
+        self.assertIn("vowels", grok.COMMAND_NAMES)
+        self.assertIn("bin", grok.COMMAND_NAMES)
+        self.assertIn("hex", grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
+        self.assertEqual(grok.VERSION, "0.15.0")
 
 
 if __name__ == "__main__":
