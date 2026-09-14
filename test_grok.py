@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 81)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 86)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.23.0")
+        self.assertEqual(grok.VERSION, "0.24.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -96,6 +96,22 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.caesar("abc", 1), "bcd")
         self.assertEqual(grok.caesar(grok.caesar("Grok", 5), -5), "Grok")
         self.assertEqual(grok.lev_dist("kitten", "sitting"), 3)
+
+    def test_mode_stddev_pow(self) -> None:
+        self.assertEqual(grok.mode_nums([1, 2, 2, 3]), 2)
+        self.assertEqual(sorted(grok.mode_nums([1, 1, 2, 2])), [1, 2])
+        self.assertAlmostEqual(grok.stddev_nums([2, 4, 4, 4, 5, 5, 7, 9]), 2.0)
+        self.assertEqual(grok.pow_nums(2, 10), 1024)
+        with self.assertRaises(ValueError):
+            grok.stddev_nums([1])
+
+    def test_unb64_and_hamming(self) -> None:
+        import base64
+        raw = base64.b64encode(b"Grok").decode()
+        self.assertEqual(grok.unb64(raw), "Grok")
+        self.assertEqual(grok.hamming("karolin", "kathrin"), 3)
+        with self.assertRaises(ValueError):
+            grok.hamming("ab", "abc")
 
     def test_pig_and_box(self) -> None:
         self.assertEqual(grok.pig_latin("hello"), "ellohay")
