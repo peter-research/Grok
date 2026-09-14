@@ -92,12 +92,21 @@ python3 grok.py lev kitten sitting
 python3 grok.py rle aaabbc
 python3 grok.py box Grok
 python3 grok.py roman 2026
+python3 grok.py unroman MMXXVI
+python3 grok.py isogram Grok
+python3 grok.py tap sos
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.18: `lev`, `rle`, `box`, `roman`.
+New in v0.19: `unroman`, `isogram`, `tap`.
+
+```bash
+python3 grok.py unroman MMXXVI
+python3 grok.py isogram Grok
+python3 grok.py tap sos
+```
 
 ## Tests
 
