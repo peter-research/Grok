@@ -45,14 +45,14 @@ class GrokHelpersTest(unittest.TestCase):
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
         self.assertEqual(len(grok.COMMAND_NAMES), 81)
-        for name in ("fact", "mean", "median", "revwords", "factors", "fib", "prime", "gcd", "lcm", "rot13", "slug"):
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.22.0")
+        self.assertEqual(grok.VERSION, "0.23.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -80,6 +80,29 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.gcd_int(54, 24), 6)
         self.assertEqual(grok.lcm_int(4, 6), 12)
         self.assertEqual(grok.undo_rle("3a2bc"), "aaabbc")
+        self.assertEqual(grok.run_rle("aaabbc"), "3a2bc")
+
+    def test_roman_roundtrip(self) -> None:
+        self.assertEqual(grok.to_roman(2026), "MMXXVI")
+        self.assertEqual(grok.from_roman("MMXXVI"), 2026)
+        with self.assertRaises(ValueError):
+            grok.from_roman("ABC")
+
+    def test_case_converters(self) -> None:
+        self.assertEqual(grok.to_snake("HelloGrok"), "hello_grok")
+        self.assertEqual(grok.to_camel("hello grok"), "helloGrok")
+
+    def test_caesar_and_lev(self) -> None:
+        self.assertEqual(grok.caesar("abc", 1), "bcd")
+        self.assertEqual(grok.caesar(grok.caesar("Grok", 5), -5), "Grok")
+        self.assertEqual(grok.lev_dist("kitten", "sitting"), 3)
+
+    def test_pig_and_box(self) -> None:
+        self.assertEqual(grok.pig_latin("hello"), "ellohay")
+        self.assertEqual(grok.pig_latin("apple"), "appleway")
+        boxed = grok.box_text("Grok")
+        self.assertTrue(boxed.startswith("+"))
+        self.assertIn("| Grok |", boxed)
 
 
 if __name__ == "__main__":
