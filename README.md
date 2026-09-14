@@ -88,12 +88,16 @@ python3 grok.py camel hello_grok
 python3 grok.py nato Grok
 python3 grok.py freq Banana
 python3 grok.py entropy ab
+python3 grok.py lev kitten sitting
+python3 grok.py rle aaabbc
+python3 grok.py box Grok
+python3 grok.py roman 2026
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.17: `snake`, `camel`, `nato`, `freq`, `entropy`. Pig Latin now keeps an initial vowel in place.
+New in v0.18: `lev`, `rle`, `box`, `roman`.
 
 ## Tests
 
