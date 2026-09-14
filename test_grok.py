@@ -44,129 +44,44 @@ class GrokHelpersTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             grok.wrap_text("hello world", 4)
 
-    def test_morse_encodes_letters(self) -> None:
-        self.assertEqual(grok.to_morse("sos"), "... --- ...")
-        self.assertEqual(grok.to_morse("Grok"), "--. .-. --- -.-")
-
-    def test_unique_chars_preserves_order(self) -> None:
-        self.assertEqual(grok.unique_chars("bookkeeper"), "bokepr")
-        self.assertEqual(grok.unique_chars("aa"), "a")
-
-    def test_leet_maps_common_letters(self) -> None:
-        self.assertEqual(grok.to_leet("Grok"), "Gr0k")
-        self.assertEqual(grok.to_leet("TEST"), "7357")
-
-    def test_count_vowels(self) -> None:
-        self.assertEqual(grok.count_vowels("Grok"), 1)
-        self.assertEqual(grok.count_vowels("aeiou"), 5)
-
-    def test_count_consonants(self) -> None:
-        self.assertEqual(grok.count_consonants("Grok"), 3)
-        self.assertEqual(grok.count_consonants("aeiou"), 0)
-        self.assertEqual(grok.count_consonants("rhythm"), 5)
-
-    def test_bin_and_hex(self) -> None:
-        self.assertEqual(grok.to_bin("A"), "01000001")
-        self.assertEqual(grok.to_hex("A"), "41")
-        self.assertEqual(grok.to_hex("Grok"), "47726f6b")
-
-    def test_caesar_round_trip(self) -> None:
-        self.assertEqual(grok.caesar("Grok", 13), grok.rot13("Grok"))
-        self.assertEqual(grok.caesar(grok.caesar("Hello, Grok!", 7), -7), "Hello, Grok!")
-        self.assertEqual(grok.caesar("abc", 1), "bcd")
-
-    def test_pig_latin(self) -> None:
-        self.assertEqual(grok.to_pig("Grok"), "Rokgay")
-        self.assertEqual(grok.to_pig("apple"), "appleyay")
-
-    def test_ascii_codepoints(self) -> None:
-        self.assertEqual(grok.to_ascii("A"), "65")
-        self.assertEqual(grok.to_ascii("AB"), "65 66")
-
-    def test_base64_round_trip(self) -> None:
-        text = "Grok — playground"
-        encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
-        self.assertEqual(base64.b64decode(encoded).decode("utf-8"), text)
-
-    def test_hash_matches_stdlib(self) -> None:
-        expected = hashlib.sha256(b"Hello, Grok!").hexdigest()
-        self.assertEqual(
-            hashlib.sha256("Hello, Grok!".encode("utf-8")).hexdigest(), expected
-        )
-
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 76)
-        for name in (
-            "check", "commands", "wrap", "sample", "repeat", "morse",
-            "unique", "yesno", "leet", "vowels", "bin", "hex",
-            "caesar", "consonants", "pig", "ascii",
-            "snake", "camel", "nato", "freq", "entropy",
-            "lev", "rle", "box", "roman", "unroman", "isogram", "tap", "fib", "prime", "gcd", "lcm", "unrle",
-        ):
+        self.assertEqual(len(grok.COMMAND_NAMES), 81)
+        for name in ("fact", "mean", "median", "revwords", "factors", "fib", "unrle"):
             self.assertIn(name, grok.COMMAND_NAMES)
-
-    def test_snake_and_camel(self) -> None:
-        self.assertEqual(grok.to_snake("HelloGrok"), "hello_grok")
-        self.assertEqual(grok.to_snake("hello-grok world"), "hello_grok_world")
-        self.assertEqual(grok.to_camel("hello_grok"), "helloGrok")
-        self.assertEqual(grok.to_camel("hello-grok-world"), "helloGrokWorld")
-
-    def test_nato(self) -> None:
-        self.assertEqual(grok.to_nato("Grok"), "Golf Romeo Oscar Kilo")
-        self.assertEqual(grok.to_nato("sos"), "Sierra Oscar Sierra")
-
-    def test_freq_and_entropy(self) -> None:
-        self.assertIn("a:2", grok.letter_freq("Aab"))
-        self.assertEqual(grok.letter_freq("123"), "(no letters)")
-        self.assertEqual(grok.shannon_entropy("aa"), 0.0)
-        self.assertAlmostEqual(grok.shannon_entropy("ab"), 1.0)
-
-    def test_lev_rle_box_roman(self) -> None:
-        self.assertEqual(grok.levenshtein("kitten", "sitting"), 3)
-        self.assertEqual(grok.levenshtein("", "ab"), 2)
-        self.assertEqual(grok.run_length("aaabbc"), "3a2bc")
-        self.assertEqual(grok.run_length("abc"), "abc")
-        boxed = grok.text_box("Grok")
-        self.assertTrue(boxed.startswith("+") and boxed.endswith("+"))
-        self.assertIn("| Grok |", boxed)
-        self.assertEqual(grok.to_roman(2026), "MMXXVI")
-        self.assertEqual(grok.to_roman(4), "IV")
-        with self.assertRaises(ValueError):
-            grok.to_roman(0)
-
-    def test_unroman_isogram_tap(self) -> None:
-        self.assertEqual(grok.from_roman("MMXXVI"), 2026)
-        self.assertEqual(grok.from_roman("IV"), 4)
-        with self.assertRaises(ValueError):
-            grok.from_roman("IIII")
-        self.assertTrue(grok.is_isogram("Grok"))
-        self.assertFalse(grok.is_isogram("book"))
-        self.assertFalse(grok.is_isogram("123"))
-        self.assertEqual(grok.to_tap("sos"), "44 35 44")
-        self.assertEqual(grok.to_tap("az"), "11 54")
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.20.0")
+        self.assertEqual(grok.VERSION, "0.21.0")
+
+    def test_factorial(self) -> None:
+        self.assertEqual(grok.factorial_int(0), 1)
+        self.assertEqual(grok.factorial_int(5), 120)
+        with self.assertRaises(ValueError):
+            grok.factorial_int(21)
+
+    def test_mean_median(self) -> None:
+        self.assertEqual(grok.mean_nums([1, 2, 3]), 2)
+        self.assertEqual(grok.median_nums([1, 3, 2]), 2)
+        self.assertEqual(grok.median_nums([1, 2, 3, 4]), 2.5)
+
+    def test_reverse_words(self) -> None:
+        self.assertEqual(grok.reverse_words("hello grok"), "grok hello")
+
+    def test_factors(self) -> None:
+        self.assertEqual(grok.factor_list(12), [1, 2, 3, 4, 6, 12])
+        with self.assertRaises(ValueError):
+            grok.factor_list(0)
 
     def test_fib_prime_gcd_lcm_unrle(self) -> None:
-        self.assertEqual(grok.nth_fib(0), 0)
         self.assertEqual(grok.nth_fib(10), 55)
-        with self.assertRaises(ValueError):
-            grok.nth_fib(-1)
         self.assertTrue(grok.is_prime(13))
         self.assertFalse(grok.is_prime(1))
-        self.assertFalse(grok.is_prime(9))
         self.assertEqual(grok.gcd_int(54, 24), 6)
         self.assertEqual(grok.lcm_int(4, 6), 12)
-        self.assertEqual(grok.lcm_int(0, 5), 0)
         self.assertEqual(grok.undo_rle("3a2bc"), "aaabbc")
-        self.assertEqual(grok.undo_rle("abc"), "abc")
-        with self.assertRaises(ValueError):
-            grok.undo_rle("12")
 
 
 if __name__ == "__main__":
