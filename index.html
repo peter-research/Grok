@@ -78,10 +78,10 @@
 </head>
 <body>
   <main>
-    <span class="tag">playground · v0.10</span>
+    <span class="tag">playground · v0.11</span>
     <h1>Grok</h1>
     <p>He does what he wants. This page is a local landing for the playground repo — original markup, no libraries, no tracking.</p>
-    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py uuid</code></p>
+    <p>Try the CLI: <code>python3 grok.py quote</code> · <code>python3 grok.py reverse Grok</code></p>
     <div class="row">
       <button type="button" id="go">Another line</button>
       <button type="button" id="fortune">Fortune</button>
@@ -93,6 +93,8 @@
       <button type="button" id="dice">Roll d6</button>
       <button type="button" id="color">Color</button>
       <button type="button" id="uuid">UUID</button>
+      <button type="button" id="reverse">Reverse</button>
+      <button type="button" id="title">Title</button>
     </div>
     <p id="line"></p>
     <section class="sheet">
@@ -121,6 +123,11 @@
         <li><code>python3 grok.py palindrome "Race car"</code></li>
         <li><code>python3 grok.py pick tea coffee water</code></li>
         <li><code>python3 grok.py shuffle tea coffee water</code></li>
+        <li><code>python3 grok.py reverse Grok</code></li>
+        <li><code>python3 grok.py count "hello world"</code></li>
+        <li><code>python3 grok.py b64 Grok</code></li>
+        <li><code>python3 grok.py sum 1 2 3.5</code></li>
+        <li><code>python3 grok.py title "hello grok"</code></li>
         <li><code>python3 grok.py commands</code></li>
       </ul>
     </section>
@@ -157,7 +164,9 @@
       "An honest failure message is more useful than a polite silence.",
       "A small command that does one thing well is still a gift.",
       "A hash is just a fingerprint that does not argue.",
-      "A week number is a calendar that learned to count."
+      "A week number is a calendar that learned to count.",
+      "Reverse a string when you want to see it from the other end.",
+      "Counting words is how a sentence learns its own size."
     ];
     const fortunes = [
       "Today is a good day to read the source.",
@@ -178,7 +187,8 @@
       "A colour that looks good in the dark is worth keeping.",
       "The next push does not have to be perfect. It has to be better.",
       "A slug that reads well is a name you can live with.",
-      "A UUID is uniqueness without asking for a name first."
+      "A UUID is uniqueness without asking for a name first.",
+      "A sum is just a list that decided to stand together."
     ];
     const jokes = [
       "Why did the function cross the road? To get to the other side effect.",
@@ -196,7 +206,8 @@
       "Why do Python programmers wear glasses? Because they can't C.",
       "A byte walks into a bar and orders a pint. The bartender says: sorry, we don't serve doubles.",
       "ROT13 is just a Caesar salad with extra letters.",
-      "I asked the palindrome if it was coming or going. It said racecar."
+      "I asked the palindrome if it was coming or going. It said racecar.",
+      "Base64 walked into a party and said: just put me on the table, I'll wrap myself."
     ];
     const whys = [
       "Because understanding beats guessing, most of the time.",
@@ -210,7 +221,8 @@
       "Because the next person who reads this might be you.",
       "Because a good name saves ten comments.",
       "Because shipping something small is still shipping.",
-      "Because a quiet improvement is still an improvement."
+      "Because a quiet improvement is still an improvement.",
+      "Because a title case line still wants to stand up straight."
     ];
     const ideas = [
       "Add one more original line to the quotes list.",
@@ -227,7 +239,8 @@
       "Make the version command print the date of the last meaningful change.",
       "Add a colour command that returns a random hex.",
       "Keep the HTML and the CLI lists within a few lines of each other.",
-      "Give pick a fair shuffle so the last item is not special."
+      "Give pick a fair shuffle so the last item is not special.",
+      "Add a reverse command so text can look over its shoulder."
     ];
     const tips = [
       "Name the thing after what it does, not how it feels.",
@@ -241,7 +254,8 @@
       "Keep the happy path obvious and the edge cases explicit.",
       "A clean git history is optional. A clear intent is not.",
       "A random colour can still be intentional if you choose the palette carefully.",
-      "A slug is just a name that travels well in a URL."
+      "A slug is just a name that travels well in a URL.",
+      "Count before you claim the sentence is short."
     ];
     const el = document.getElementById("line");
     const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -274,6 +288,14 @@
       show('<span class="swatch" style="background:' + c + '"></span>' + c);
     });
     document.getElementById("uuid").addEventListener("click", () => show(randomUuid()));
+    document.getElementById("reverse").addEventListener("click", () => {
+      const raw = el.textContent || pick(lines);
+      show(raw.split("").reverse().join(""));
+    });
+    document.getElementById("title").addEventListener("click", () => {
+      const raw = el.textContent || pick(lines);
+      show(raw.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()));
+    });
   </script>
 </body>
 </html>
