@@ -71,12 +71,16 @@ python3 grok.py indent "hello" --spaces 4
 python3 grok.py percent 25 200
 python3 grok.py clamp 120 0 100
 python3 grok.py random 1 6
+python3 grok.py repeat 3 ping
+python3 grok.py morse "sos"
+python3 grok.py unique bookkeeper
+python3 grok.py yesno
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.13: `day`, `echo`, `wrap`, `sample`.
+New in v0.14: `repeat`, `morse`, `unique`, `yesno`.
 
 ## Tests
 

@@ -44,6 +44,14 @@ class GrokHelpersTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             grok.wrap_text("hello world", 4)
 
+    def test_morse_encodes_letters(self) -> None:
+        self.assertEqual(grok.to_morse("sos"), "... --- ...")
+        self.assertEqual(grok.to_morse("Grok"), "--. .-. --- -.-")
+
+    def test_unique_chars_preserves_order(self) -> None:
+        self.assertEqual(grok.unique_chars("bookkeeper"), "bokepr")
+        self.assertEqual(grok.unique_chars("aa"), "a")
+
     def test_base64_round_trip(self) -> None:
         text = "Grok — playground"
         encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
@@ -57,13 +65,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 47)
+        self.assertEqual(len(grok.COMMAND_NAMES), 51)
         self.assertIn("check", grok.COMMAND_NAMES)
         self.assertIn("commands", grok.COMMAND_NAMES)
         self.assertIn("wrap", grok.COMMAND_NAMES)
         self.assertIn("sample", grok.COMMAND_NAMES)
-        self.assertIn("day", grok.COMMAND_NAMES)
-        self.assertIn("echo", grok.COMMAND_NAMES)
+        self.assertIn("repeat", grok.COMMAND_NAMES)
+        self.assertIn("morse", grok.COMMAND_NAMES)
+        self.assertIn("unique", grok.COMMAND_NAMES)
+        self.assertIn("yesno", grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
