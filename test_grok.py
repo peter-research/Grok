@@ -63,7 +63,7 @@ class GrokHelpersTest(unittest.TestCase):
     def test_count_consonants(self) -> None:
         self.assertEqual(grok.count_consonants("Grok"), 3)
         self.assertEqual(grok.count_consonants("aeiou"), 0)
-        self.assertEqual(grok.count_consonants("rhythm"), 6)
+        self.assertEqual(grok.count_consonants("rhythm"), 5)
 
     def test_bin_and_hex(self) -> None:
         self.assertEqual(grok.to_bin("A"), "01000001")
@@ -96,19 +96,36 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 59)
+        self.assertEqual(len(grok.COMMAND_NAMES), 64)
         for name in (
             "check", "commands", "wrap", "sample", "repeat", "morse",
             "unique", "yesno", "leet", "vowels", "bin", "hex",
             "caesar", "consonants", "pig", "ascii",
+            "snake", "camel", "nato", "freq", "entropy",
         ):
             self.assertIn(name, grok.COMMAND_NAMES)
+
+    def test_snake_and_camel(self) -> None:
+        self.assertEqual(grok.to_snake("HelloGrok"), "hello_grok")
+        self.assertEqual(grok.to_snake("hello-grok world"), "hello_grok_world")
+        self.assertEqual(grok.to_camel("hello_grok"), "helloGrok")
+        self.assertEqual(grok.to_camel("hello-grok-world"), "helloGrokWorld")
+
+    def test_nato(self) -> None:
+        self.assertEqual(grok.to_nato("Grok"), "Golf Romeo Oscar Kilo")
+        self.assertEqual(grok.to_nato("sos"), "Sierra Oscar Sierra")
+
+    def test_freq_and_entropy(self) -> None:
+        self.assertIn("a:2", grok.letter_freq("Aab"))
+        self.assertEqual(grok.letter_freq("123"), "(no letters)")
+        self.assertEqual(grok.shannon_entropy("aa"), 0.0)
+        self.assertAlmostEqual(grok.shannon_entropy("ab"), 1.0)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.16.0")
+        self.assertEqual(grok.VERSION, "0.17.0")
 
 
 if __name__ == "__main__":
