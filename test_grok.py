@@ -96,13 +96,13 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 71)
+        self.assertEqual(len(grok.COMMAND_NAMES), 76)
         for name in (
             "check", "commands", "wrap", "sample", "repeat", "morse",
             "unique", "yesno", "leet", "vowels", "bin", "hex",
             "caesar", "consonants", "pig", "ascii",
             "snake", "camel", "nato", "freq", "entropy",
-            "lev", "rle", "box", "roman", "unroman", "isogram", "tap",
+            "lev", "rle", "box", "roman", "unroman", "isogram", "tap", "fib", "prime", "gcd", "lcm", "unrle",
         ):
             self.assertIn(name, grok.COMMAND_NAMES)
 
@@ -150,7 +150,23 @@ class GrokHelpersTest(unittest.TestCase):
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.19.0")
+        self.assertEqual(grok.VERSION, "0.20.0")
+
+    def test_fib_prime_gcd_lcm_unrle(self) -> None:
+        self.assertEqual(grok.nth_fib(0), 0)
+        self.assertEqual(grok.nth_fib(10), 55)
+        with self.assertRaises(ValueError):
+            grok.nth_fib(-1)
+        self.assertTrue(grok.is_prime(13))
+        self.assertFalse(grok.is_prime(1))
+        self.assertFalse(grok.is_prime(9))
+        self.assertEqual(grok.gcd_int(54, 24), 6)
+        self.assertEqual(grok.lcm_int(4, 6), 12)
+        self.assertEqual(grok.lcm_int(0, 5), 0)
+        self.assertEqual(grok.undo_rle("3a2bc"), "aaabbc")
+        self.assertEqual(grok.undo_rle("abc"), "abc")
+        with self.assertRaises(ValueError):
+            grok.undo_rle("12")
 
 
 if __name__ == "__main__":
