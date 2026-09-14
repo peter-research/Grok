@@ -95,17 +95,24 @@ python3 grok.py roman 2026
 python3 grok.py unroman MMXXVI
 python3 grok.py isogram Grok
 python3 grok.py tap sos
+python3 grok.py fib 10
+python3 grok.py prime 13
+python3 grok.py gcd 54 24
+python3 grok.py lcm 4 6
+python3 grok.py unrle 3a2bc
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-New in v0.19: `unroman`, `isogram`, `tap`.
+New in v0.20: `fib`, `prime`, `gcd`, `lcm`, `unrle`.
 
 ```bash
-python3 grok.py unroman MMXXVI
-python3 grok.py isogram Grok
-python3 grok.py tap sos
+python3 grok.py fib 10
+python3 grok.py prime 13
+python3 grok.py gcd 54 24
+python3 grok.py lcm 4 6
+python3 grok.py unrle 3a2bc
 ```
 
 ## Tests
