@@ -38,6 +38,12 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.title_case("hello-world"), "Hello-World")
         self.assertEqual(grok.title_case("GROK 2.0"), "Grok 2.0")
 
+    def test_wrap_text_breaks_on_width(self) -> None:
+        self.assertEqual(grok.wrap_text("one two three four", 10), "one two\nthree four")
+        self.assertEqual(grok.wrap_text("hello", 20), "hello")
+        with self.assertRaises(ValueError):
+            grok.wrap_text("hello world", 4)
+
     def test_base64_round_trip(self) -> None:
         text = "Grok — playground"
         encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
@@ -51,8 +57,18 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
+        self.assertEqual(len(grok.COMMAND_NAMES), 47)
         self.assertIn("check", grok.COMMAND_NAMES)
         self.assertIn("commands", grok.COMMAND_NAMES)
+        self.assertIn("wrap", grok.COMMAND_NAMES)
+        self.assertIn("sample", grok.COMMAND_NAMES)
+        self.assertIn("day", grok.COMMAND_NAMES)
+        self.assertIn("echo", grok.COMMAND_NAMES)
+
+    def test_version_looks_like_semver(self) -> None:
+        parts = grok.VERSION.split(".")
+        self.assertEqual(len(parts), 3)
+        self.assertTrue(all(p.isdigit() for p in parts))
 
 
 if __name__ == "__main__":

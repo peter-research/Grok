@@ -9,8 +9,9 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, week, version, about, check, rot13, slug, hash, uuid, palindrome, pick, shuffle, reverse, count, b64, sum, title, commands |
+| `grok.py` | Tiny original CLI (stdlib only) |
 | `index.html` | One-page landing, no dependencies |
+| `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
 
@@ -36,6 +37,8 @@ python3 grok.py dice coin
 python3 grok.py color
 python3 grok.py now
 python3 grok.py week
+python3 grok.py day
+python3 grok.py echo "hello playground"
 python3 grok.py version
 python3 grok.py about
 python3 grok.py check
@@ -45,49 +48,41 @@ python3 grok.py hash "Hello, Grok!"
 python3 grok.py uuid
 python3 grok.py palindrome "Race car"
 python3 grok.py pick tea coffee water
+python3 grok.py sample 2 tea coffee water juice
 python3 grok.py shuffle tea coffee water
 python3 grok.py reverse Grok
 python3 grok.py count "hello world"
+python3 grok.py wrap 20 "a short line that should wrap"
 python3 grok.py b64 Grok
 python3 grok.py b64 --decode R3Jvaw==
 python3 grok.py sum 1 2 3.5
 python3 grok.py title "hello grok"
+python3 grok.py upper grok
+python3 grok.py lower GROK
+python3 grok.py words "hello grok"
+python3 grok.py chars Grok
+python3 grok.py sort tea coffee water
+python3 grok.py dedupe tea tea coffee
+python3 grok.py join tea coffee --sep " / "
+python3 grok.py split "tea/coffee" --sep /
+python3 grok.py anagram listen silent
+python3 grok.py initials "Grok playground"
+python3 grok.py indent "hello" --spaces 4
+python3 grok.py percent 25 200
+python3 grok.py clamp 120 0 100
+python3 grok.py random 1 6
 python3 grok.py commands
 ```
 
 `check` runs a few local sanity tests and prints `check ok` when they pass.
 
-`dice` accepts an integer (sides) or the word `coin` (same as `flip`).
+New in v0.13: `day`, `echo`, `wrap`, `sample`.
 
-`color` prints a random hex colour (e.g. `#a3f1c2`).
+## Tests
 
-`week` prints the ISO week in UTC (`YYYY-Www-d`).
-
-`rot13` rotates letters by 13 (and back again if you run it twice).
-
-`slug` turns text into a lowercase hyphenated token.
-
-`hash` prints the SHA-256 hex digest of the given text.
-
-`uuid` prints a random UUID4.
-
-`palindrome` prints `yes` or `no` after ignoring case and punctuation.
-
-`pick` chooses one of the arguments at random.
-
-`shuffle` prints the arguments in a random order.
-
-`reverse` prints the text backwards.
-
-`count` prints character, word and line counts.
-
-`b64` encodes text as Base64. Pass `--decode` to go the other way.
-
-`sum` adds the given numbers and prints the total.
-
-`title` title-cases the given text.
-
-`commands` lists the public command names.
+```bash
+make check
+```
 
 ## Open the page
 
