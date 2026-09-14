@@ -2,15 +2,15 @@
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grok playground</title>
 <style>:root{color-scheme:dark;--bg:#0b0d10;--fg:#e8edf2;--muted:#9aa7b4;--accent:#67e8f9;--card:#111827;--border:#1f2937}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,sans-serif;background:radial-gradient(900px 500px at 15% -5%,#1a2a3a 0%,transparent 55%),var(--bg);color:var(--fg);padding:2rem 1.25rem}main{max-width:58rem;margin:auto}h1{font-size:clamp(2.1rem,6vw,3.6rem);letter-spacing:-.045em;margin:0 0 .4rem}.tag{display:inline-block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid #334155;padding:.2rem .55rem;border-radius:999px;margin-bottom:.9rem}p{color:var(--muted);line-height:1.65}code{color:var(--accent)}button{border:1px solid #334155;background:var(--card);color:var(--fg);padding:.65rem 1rem;border-radius:999px;cursor:pointer;margin:.2rem}button:hover{border-color:var(--accent)}#line{margin-top:1.1rem;min-height:1.6em;white-space:pre-wrap}.sheet{margin-top:1.85rem;padding:1.05rem 1.15rem;border:1px solid var(--border);border-radius:1rem}footer{margin-top:1.75rem;font-size:.85rem;color:var(--muted)}footer a{color:var(--accent);text-decoration:none}</style></head>
-<body><main><span class="tag">playground · v0.23</span><h1>Grok</h1>
-<p>He does what he wants. A tiny original playground: 81 dependency-free CLI commands, now actually wired.</p>
+<body><main><span class="tag">playground · v0.24</span><h1>Grok</h1>
+<p>He does what he wants. A tiny original playground: 86 dependency-free CLI commands, still original and wired.</p>
 <p>Try <code>python3 grok.py roman 2026</code> or <code>python3 grok.py snake HelloGrok</code>.</p>
 <div id="buttons"></div>
 <p id="line">Pick a command. Make the repo do something.</p>
-<section class="sheet"><h2>CLI — 81 commands</h2><ul id="cli"></ul></section>
+<section class="sheet"><h2>CLI — 86 commands</h2><ul id="cli"></ul></section>
 <footer>Original code only · <a href="https://github.com/peter-research/Grok">peter-research/Grok</a></footer></main>
 <script>
-const lines=["Understand the universe. Then maybe have a snack.","Curiosity is a feature, not a bug.","He does what he wants — within the rules of the playground."];
+const lines=["Understand the universe. Then maybe have a snack.","Curiosity is a feature, not a bug.","He does what he wants — within the rules of the playground.","Small tools, shipped often, beat grand plans that never leave the editor."];
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const ask=(q,d)=>{const v=prompt(q,d);return v===null?d:v};
 const commands=[
@@ -24,9 +24,11 @@ const commands=[
   ['fact','Factorial',()=>{const n=Number(ask('n','5'))|0;if(n<0||n>20)return 'out of range';let v=1;for(let i=2;i<=n;i++)v*=i;return String(v)}],
   ['prime','Prime?',()=>{const n=Number(ask('n','13'))|0;if(n<2)return 'no';if(n<4)return 'yes';if(n%2===0)return 'no';for(let i=3;i*i<=n;i+=2)if(n%i===0)return 'no';return 'yes'}],
   ['slug','Slug',()=>{const t=ask('Text','Hello, Grok!');let o='',dash=false;for(const c of t.toLowerCase()){if(/[a-z0-9]/.test(c)){o+=c;dash=false}else if(o&&!dash){o+='-';dash=true}}return o.replace(/-$/,'')||'item'}],
+  ['mode','Mode',()=>{const s=ask('Numbers','1 2 2 3');const a=s.trim().split(/\s+/).map(Number);const c={};for(const x of a)c[x]=(c[x]||0)+1;let best=0,out=[];for(const [k,v] of Object.entries(c)){if(v>best){best=v;out=[k]}else if(v===best)out.push(k)}return out.join(' ')}],
+  ['hamming','Hamming',()=>{const a=ask('A','karolin');const b=ask('B','kathrin');if(a.length!==b.length)return 'length';let n=0;for(let i=0;i<a.length;i++)if(a[i]!==b[i])n++;return String(n)}],
   ['snake','Snake',()=>{const t=ask('Text','HelloGrok');let o='';for(let i=0;i<t.length;i++){const c=t[i];if(c>='A'&&c<='Z'&&i&&((t[i-1]>='a'&&t[i-1]<='z')||(i+1<t.length&&t[i+1]>='a'&&t[i+1]<='z')))o+='_';if(/[A-Za-z0-9]/.test(c))o+=c.toLowerCase();else if(o&&!o.endsWith('_'))o+='_'}return o.replace(/^_+|_+$/g,'')}]
 ];
-const all=['greet','quote','fortune','joke','why','idea','tip','flip','dice','color','now','week','day','echo','version','about','check','rot13','slug','hash','uuid','palindrome','pick','sample','shuffle','reverse','count','wrap','b64','sum','title','upper','lower','words','lines','chars','sort','dedupe','join','split','anagram','initials','indent','percent','clamp','random','commands','repeat','morse','unique','yesno','leet','vowels','bin','hex','caesar','consonants','pig','ascii','snake','camel','nato','freq','entropy','lev','rle','box','roman','unroman','isogram','tap','fib','prime','gcd','lcm','unrle','fact','mean','median','revwords','factors'];
+const all=['greet','quote','fortune','joke','why','idea','tip','flip','dice','color','now','week','day','echo','version','about','check','rot13','slug','hash','uuid','palindrome','pick','sample','shuffle','reverse','count','wrap','b64','sum','title','upper','lower','words','lines','chars','sort','dedupe','join','split','anagram','initials','indent','percent','clamp','random','commands','repeat','morse','unique','yesno','leet','vowels','bin','hex','caesar','consonants','pig','ascii','snake','camel','nato','freq','entropy','lev','rle','box','roman','unroman','isogram','tap','fib','prime','gcd','lcm','unrle','fact','mean','median','revwords','factors','mode','stddev','pow','unb64','hamming'];
 const out=document.getElementById('line');
 commands.forEach(([,label,fn])=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>{out.textContent=fn()};document.getElementById('buttons').appendChild(b)});
 all.forEach(c=>{const li=document.createElement('li');li.textContent='python3 grok.py '+c;document.getElementById('cli').appendChild(li)});
