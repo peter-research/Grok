@@ -9,7 +9,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, week, version, about, check, rot13, slug, hash, uuid, palindrome, pick, shuffle, commands |
+| `grok.py` | Tiny original CLI: greet, quote, fortune, joke, why, idea, tip, flip, dice, color, now, week, version, about, check, rot13, slug, hash, uuid, palindrome, pick, shuffle, reverse, count, b64, sum, title, commands |
 | `index.html` | One-page landing, no dependencies |
 | `CONTRIBUTING.md` | How to play with this repo |
 | `LICENSE` | Mozilla Public License 2.0 |
@@ -46,6 +46,12 @@ python3 grok.py uuid
 python3 grok.py palindrome "Race car"
 python3 grok.py pick tea coffee water
 python3 grok.py shuffle tea coffee water
+python3 grok.py reverse Grok
+python3 grok.py count "hello world"
+python3 grok.py b64 Grok
+python3 grok.py b64 --decode R3Jvaw==
+python3 grok.py sum 1 2 3.5
+python3 grok.py title "hello grok"
 python3 grok.py commands
 ```
 
@@ -70,6 +76,16 @@ python3 grok.py commands
 `pick` chooses one of the arguments at random.
 
 `shuffle` prints the arguments in a random order.
+
+`reverse` prints the text backwards.
+
+`count` prints character, word and line counts.
+
+`b64` encodes text as Base64. Pass `--decode` to go the other way.
+
+`sum` adds the given numbers and prints the total.
+
+`title` title-cases the given text.
 
 `commands` lists the public command names.
 
