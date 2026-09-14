@@ -21,16 +21,20 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.23 wires the advertised helpers as real commands (stdlib only).
+See `python3 grok.py commands` for the full list. v0.24 adds mode, stddev, pow, unb64 and hamming (still stdlib only).
 
 ```bash
 python3 grok.py fact 5
 python3 grok.py mean 1 2 3
+python3 grok.py mode 1 2 2 3
+python3 grok.py stddev 2 4 4 4 5 5 7 9
+python3 grok.py pow 2 10
 python3 grok.py roman 2026
 python3 grok.py snake HelloGrok
 python3 grok.py caesar "Hello, Grok!" 13
 python3 grok.py rle aaabbc
 python3 grok.py prime 13
+python3 grok.py hamming karolin kathrin
 python3 grok.py check
 ```
 
