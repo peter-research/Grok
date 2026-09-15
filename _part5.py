@@ -146,3 +146,48 @@ def popcount(n: int) -> int:
     if n < 0:
         raise ValueError("range")
     return bin(n).count("1")
+
+
+def isbn13_ok(text: str) -> bool:
+    digits = [int(c) for c in text if c.isdigit()]
+    if len(digits) != 13:
+        return False
+    total = sum(d if i % 2 == 0 else d * 3 for i, d in enumerate(digits))
+    return total % 10 == 0
+
+
+def is_leap(year: int) -> bool:
+    if year <= 0:
+        raise ValueError("range")
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+
+def swap_case(text: str) -> str:
+    return text.swapcase()
+
+
+def celsius_to_f(c: float) -> float:
+    return c * 9.0 / 5.0 + 32.0
+
+
+def aliquot_sum(n: int) -> int:
+    if n < 1:
+        raise ValueError("range")
+    if n == 1:
+        return 0
+    total = 1
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            total += i
+            other = n // i
+            if other != i and other != n:
+                total += other
+        i += 1
+    return total
+
+
+def is_abundant(n: int) -> bool:
+    if n < 1:
+        raise ValueError("range")
+    return aliquot_sum(n) > n

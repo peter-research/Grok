@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 105)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn", "oct", "pangram", "until", "droot", "bits"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 110)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn", "oct", "pangram", "until", "droot", "bits", "isbn13", "leap", "swap", "c2f", "abundant"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.28.0")
+        self.assertEqual(grok.VERSION, "0.29.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -159,6 +159,23 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.popcount(13), 3)
         with self.assertRaises(ValueError):
             grok.popcount(-1)
+
+    def test_isbn13_leap_swap_c2f_abundant(self) -> None:
+        self.assertTrue(grok.isbn13_ok("978-0-306-40615-7"))
+        self.assertFalse(grok.isbn13_ok("978-0-306-40615-8"))
+        self.assertTrue(grok.is_leap(2024))
+        self.assertFalse(grok.is_leap(2026))
+        self.assertTrue(grok.is_leap(2000))
+        self.assertFalse(grok.is_leap(1900))
+        self.assertEqual(grok.swap_case("Hello"), "hELLO")
+        self.assertEqual(grok.celsius_to_f(100), 212.0)
+        self.assertEqual(grok.celsius_to_f(0), 32.0)
+        self.assertTrue(grok.is_abundant(12))
+        self.assertFalse(grok.is_abundant(28))
+        with self.assertRaises(ValueError):
+            grok.is_leap(0)
+        with self.assertRaises(ValueError):
+            grok.is_abundant(0)
 
 
 if __name__ == "__main__":
