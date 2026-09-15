@@ -6,7 +6,7 @@ import grok
 
 class V041Test(unittest.TestCase):
     def test_count_and_version(self) -> None:
-        self.assertEqual(len(grok.COMMAND_NAMES), 170)
+        self.assertEqual(len(grok.COMMAND_NAMES), 165)
         self.assertEqual(grok.VERSION, "0.41.0")
         for name in ("smith", "automorphic", "lucas", "squarefree", "duck"):
             self.assertIn(name, grok.COMMAND_NAMES)

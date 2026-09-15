@@ -4,3 +4,6 @@ from pathlib import Path
 
 _src = "".join(Path(__file__).with_name(f"_part{i}.py").read_text() for i in range(1, 19))
 exec(compile(_src, "grok.py", "exec"), globals())
+
+if __name__ == "__main__":
+    raise SystemExit(main())
