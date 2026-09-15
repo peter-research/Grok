@@ -120,3 +120,29 @@ def isbn10_ok(text: str) -> bool:
             else:
                 return False
     return total % 11 == 0
+
+
+def to_oct(n: int) -> str:
+    return format(n, "o")
+
+
+def is_pangram(text: str) -> bool:
+    letters = {c.lower() for c in text if c.isalpha()}
+    return set(string.ascii_lowercase) <= letters
+
+
+def days_until(iso: str) -> int:
+    return (date.fromisoformat(iso) - date.today()).days
+
+
+def digital_root(n: int) -> int:
+    n = abs(n)
+    if n == 0:
+        return 0
+    return 1 + (n - 1) % 9
+
+
+def popcount(n: int) -> int:
+    if n < 0:
+        raise ValueError("range")
+    return bin(n).count("1")
