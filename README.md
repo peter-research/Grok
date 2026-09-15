@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part13.py` | Original CLI pieces |
+| `_part1.py` … `_part14.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.36 reaches 145 commands and adds popcnt, gray, ungray, soundex and b32.
+See `python3 grok.py commands` for the full list. v0.37 reaches 150 commands and adds isogram, vowels, cons, rotl and rotr.
 
 ```bash
 python3 grok.py fact 5
@@ -78,6 +78,11 @@ python3 grok.py gray 7
 python3 grok.py ungray 4
 python3 grok.py soundex Robert
 python3 grok.py b32 hi
+python3 grok.py isogram Grok
+python3 grok.py vowels Grok
+python3 grok.py cons Grok
+python3 grok.py rotl 1 Grok
+python3 grok.py rotr 1 Grok
 python3 grok.py check
 ```
 
