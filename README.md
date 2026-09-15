@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part11.py` | Original CLI pieces |
+| `_part1.py` … `_part12.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.34 reaches 135 commands and adds hypot, lcm, isqrt, median and powint.
+See `python3 grok.py commands` for the full list. v0.35 reaches 140 commands and adds ncr, npr, cbrt, geomean and xorstr.
 
 ```bash
 python3 grok.py fact 5
@@ -68,6 +68,11 @@ python3 grok.py lcm 4 6
 python3 grok.py isqrt 16
 python3 grok.py median 1 3 2 4
 python3 grok.py powint 2 10
+python3 grok.py ncr 5 2
+python3 grok.py npr 5 2
+python3 grok.py cbrt 27
+python3 grok.py geomean 1 4 16
+python3 grok.py xorstr ab cd
 python3 grok.py check
 ```
 
