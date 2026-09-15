@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 100)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 105)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn", "oct", "pangram", "until", "droot", "bits"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.27.0")
+        self.assertEqual(grok.VERSION, "0.28.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -148,6 +148,17 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.julian_day("2026-09-15"), 258)
         self.assertTrue(grok.isbn10_ok("0-306-40615-2"))
         self.assertFalse(grok.isbn10_ok("123"))
+
+    def test_oct_pangram_until_droot_bits(self) -> None:
+        self.assertEqual(grok.to_oct(64), "100")
+        self.assertTrue(grok.is_pangram("The quick brown fox jumps over the lazy dog"))
+        self.assertFalse(grok.is_pangram("hello"))
+        self.assertEqual(grok.days_until("2026-09-15"), (grok.date.fromisoformat("2026-09-15") - grok.date.today()).days)
+        self.assertEqual(grok.digital_root(38), 2)
+        self.assertEqual(grok.digital_root(0), 0)
+        self.assertEqual(grok.popcount(13), 3)
+        with self.assertRaises(ValueError):
+            grok.popcount(-1)
 
 
 if __name__ == "__main__":
