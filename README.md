@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part6.py` | Original CLI pieces |
+| `_part1.py` … `_part7.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.29 reaches 110 commands and adds isbn13, leap, swap, c2f and abundant.
+See `python3 grok.py commands` for the full list. v0.30 reaches 115 commands and adds f2c, deficient, square, cube and mid.
 
 ```bash
 python3 grok.py fact 5
@@ -43,6 +43,11 @@ python3 grok.py leap 2024
 python3 grok.py swap Hello
 python3 grok.py c2f 100
 python3 grok.py abundant 12
+python3 grok.py f2c 212
+python3 grok.py deficient 8
+python3 grok.py square 16
+python3 grok.py cube 3
+python3 grok.py mid Grok
 python3 grok.py check
 ```
 
