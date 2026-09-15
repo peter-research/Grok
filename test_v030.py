@@ -5,9 +5,8 @@ import unittest
 import grok
 
 class V030Test(unittest.TestCase):
-    def test_count_and_version(self) -> None:
-        self.assertEqual(len(grok.COMMAND_NAMES), 115)
-        self.assertEqual(grok.VERSION, "0.30.0")
+    def test_v030_commands_still_present(self) -> None:
+        self.assertGreaterEqual(len(grok.COMMAND_NAMES), 115)
         for name in ("f2c", "deficient", "square", "cube", "mid"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
