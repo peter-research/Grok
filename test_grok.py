@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 86)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 91)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.24.0")
+        self.assertEqual(grok.VERSION, "0.25.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -119,6 +119,18 @@ class GrokHelpersTest(unittest.TestCase):
         boxed = grok.box_text("Grok")
         self.assertTrue(boxed.startswith("+"))
         self.assertIn("| Grok |", boxed)
+
+    def test_variance_nrange_collatz_xor_weekday(self) -> None:
+        self.assertAlmostEqual(grok.variance_nums([2, 4, 4, 4, 5, 5, 7, 9]), 4.0)
+        self.assertEqual(grok.nrange_nums([3, 1, 8]), 7)
+        self.assertEqual(grok.collatz_steps(6), 8)
+        self.assertEqual(grok.xor_text("hi", 1), "ih")
+        self.assertEqual(grok.xor_text(grok.xor_text("Grok", 42), 42), "Grok")
+        self.assertEqual(grok.weekday_of("2026-09-15"), "Tuesday")
+        with self.assertRaises(ValueError):
+            grok.variance_nums([1])
+        with self.assertRaises(ValueError):
+            grok.collatz_steps(0)
 
 
 if __name__ == "__main__":
