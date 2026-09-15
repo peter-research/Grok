@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.27 reaches 100 commands and adds kebab, pascal, perfect, julian and isbn.
+See `python3 grok.py commands` for the full list. v0.28 reaches 105 commands and adds oct, pangram, until, droot and bits.
 
 ```bash
 python3 grok.py fact 5
@@ -33,6 +33,11 @@ python3 grok.py pascal hello grok
 python3 grok.py perfect 28
 python3 grok.py julian 2026-09-15
 python3 grok.py isbn 0-306-40615-2
+python3 grok.py oct 64
+python3 grok.py pangram The quick brown fox jumps over the lazy dog
+python3 grok.py until 2026-12-31
+python3 grok.py droot 38
+python3 grok.py bits 13
 python3 grok.py check
 ```
 

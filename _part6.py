@@ -96,6 +96,9 @@ def cmd_check(_args):
     assert collatz_steps(6) == 8
     assert to_pascal("hello grok") == "HelloGrok"
     assert is_perfect(28)
+    assert is_pangram("The quick brown fox jumps over the lazy dog")
+    assert digital_root(38) == 2
+    assert popcount(13) == 3
     return "check ok"
 
 
@@ -462,6 +465,26 @@ def cmd_isbn(args):
     return "yes" if isbn10_ok(_need(1, args)[0]) else "no"
 
 
+def cmd_oct(args):
+    return to_oct(int(_need(1, args)[0]))
+
+
+def cmd_pangram(args):
+    return "yes" if is_pangram(" ".join(_need(1, args, "text"))) else "no"
+
+
+def cmd_until(args):
+    return str(days_until(_need(1, args)[0]))
+
+
+def cmd_droot(args):
+    return str(digital_root(int(_need(1, args)[0])))
+
+
+def cmd_bits(args):
+    return str(popcount(int(_need(1, args)[0])))
+
+
 COMMANDS = {
     "greet": cmd_greet, "quote": cmd_quote, "fortune": cmd_fortune, "joke": cmd_joke,
     "why": cmd_why, "idea": cmd_idea, "tip": cmd_tip, "flip": cmd_flip, "dice": cmd_dice,
@@ -486,7 +509,8 @@ COMMANDS = {
     "nrange": cmd_nrange, "collatz": cmd_collatz, "xor": cmd_xor, "weekday": cmd_weekday,
     "digitsum": cmd_digitsum, "tri": cmd_tri, "isqrt": cmd_isqrt, "luhn": cmd_luhn,
     "kebab": cmd_kebab, "pascal": cmd_pascal, "perfect": cmd_perfect, "julian": cmd_julian,
-    "isbn": cmd_isbn,
+    "isbn": cmd_isbn, "oct": cmd_oct, "pangram": cmd_pangram, "until": cmd_until,
+    "droot": cmd_droot, "bits": cmd_bits,
 }
 
 COMMAND_NAMES = list(COMMANDS)
