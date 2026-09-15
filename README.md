@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part17.py` | Original CLI pieces |
+| `_part1.py` … `_part18.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.40 reaches 165 commands and adds hexagonal, happy, kaprekar, catalan and aliquot.
+See `python3 grok.py commands` for the full list. v0.41 reaches 170 commands and adds smith, automorphic, lucas, squarefree and duck.
 
 ```bash
 python3 grok.py fact 5
@@ -98,6 +98,11 @@ python3 grok.py happy 19
 python3 grok.py kaprekar 297
 python3 grok.py catalan 5
 python3 grok.py aliquot 12
+python3 grok.py smith 22
+python3 grok.py automorphic 25
+python3 grok.py lucas 5
+python3 grok.py squarefree 10
+python3 grok.py duck 101
 python3 grok.py check
 ```
 
