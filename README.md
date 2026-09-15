@@ -9,7 +9,8 @@ The point is a repo Grok can improve, experiment with, and push to.
 
 | Path | Role |
 | --- | --- |
-| `grok.py` | Tiny original CLI (stdlib only) |
+| `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
+| `_part1.py` … `_part6.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -21,25 +22,18 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.25 adds variance, nrange, collatz, xor and weekday (still stdlib only).
+See `python3 grok.py commands` for the full list. v0.26 restores the split source files and adds digitsum, tri, isqrt and luhn.
 
 ```bash
 python3 grok.py fact 5
 python3 grok.py mean 1 2 3
-python3 grok.py mode 1 2 2 3
-python3 grok.py stddev 2 4 4 4 5 5 7 9
-python3 grok.py variance 2 4 4 4 5 5 7 9
-python3 grok.py nrange 3 1 8
-python3 grok.py collatz 6
-python3 grok.py xor hi 1
 python3 grok.py weekday 2026-09-15
-python3 grok.py pow 2 10
+python3 grok.py digitsum 2026
+python3 grok.py tri 10
+python3 grok.py isqrt 144
+python3 grok.py luhn 79927398713
 python3 grok.py roman 2026
 python3 grok.py snake HelloGrok
-python3 grok.py caesar "Hello, Grok!" 13
-python3 grok.py rle aaabbc
-python3 grok.py prime 13
-python3 grok.py hamming karolin kathrin
 python3 grok.py check
 ```
 

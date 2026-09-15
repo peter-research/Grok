@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 91)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 95)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.25.0")
+        self.assertEqual(grok.VERSION, "0.26.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -131,6 +131,13 @@ class GrokHelpersTest(unittest.TestCase):
             grok.variance_nums([1])
         with self.assertRaises(ValueError):
             grok.collatz_steps(0)
+
+    def test_digitsum_tri_isqrt_luhn(self) -> None:
+        self.assertEqual(grok.digit_sum(2026), 10)
+        self.assertEqual(grok.triangular(10), 55)
+        self.assertEqual(grok.isqrt_int(144), 12)
+        self.assertTrue(grok.luhn_ok("79927398713"))
+        self.assertFalse(grok.luhn_ok("123"))
 
 
 if __name__ == "__main__":
