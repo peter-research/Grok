@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part9.py` | Original CLI pieces |
+| `_part1.py` … `_part10.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.32 reaches 125 commands and adds palnum, digits, prod, minn and maxn.
+See `python3 grok.py commands` for the full list. v0.33 reaches 130 commands and adds floor, ceil, roundn, mod and coprime.
 
 ```bash
 python3 grok.py fact 5
@@ -58,6 +58,11 @@ python3 grok.py digits 120
 python3 grok.py prod 2 3 4
 python3 grok.py minn 3 1 8
 python3 grok.py maxn 3 1 8
+python3 grok.py floor 3.7
+python3 grok.py ceil 3.2
+python3 grok.py roundn 3.14159 2
+python3 grok.py mod 10 3
+python3 grok.py coprime 8 15
 python3 grok.py check
 ```
 
