@@ -191,3 +191,35 @@ def is_abundant(n: int) -> bool:
     if n < 1:
         raise ValueError("range")
     return aliquot_sum(n) > n
+
+
+def fahrenheit_to_c(f: float) -> float:
+    return (f - 32.0) * 5.0 / 9.0
+
+
+def is_deficient(n: int) -> bool:
+    if n < 1:
+        raise ValueError("range")
+    return aliquot_sum(n) < n
+
+
+def is_square(n: int) -> bool:
+    if n < 0:
+        raise ValueError("range")
+    r = isqrt_int(n)
+    return r * r == n
+
+
+def cube_int(n: int) -> int:
+    if abs(n) > 100000:
+        raise ValueError("range")
+    return n * n * n
+
+
+def mid_text(text: str) -> str:
+    if not text:
+        return ""
+    n = len(text)
+    if n % 2:
+        return text[n // 2]
+    return text[n // 2 - 1 : n // 2 + 1]
