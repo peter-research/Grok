@@ -94,6 +94,8 @@ def cmd_check(_args):
     assert slugify("Hello, Grok!") == "hello-grok"
     assert to_roman(2026) == "MMXXVI"
     assert collatz_steps(6) == 8
+    assert to_pascal("hello grok") == "HelloGrok"
+    assert is_perfect(28)
     return "check ok"
 
 
@@ -440,6 +442,26 @@ def cmd_luhn(args):
     return "yes" if luhn_ok(_need(1, args)[0]) else "no"
 
 
+def cmd_kebab(args):
+    return to_kebab(" ".join(_need(1, args, "text")))
+
+
+def cmd_pascal(args):
+    return to_pascal(" ".join(_need(1, args, "text")))
+
+
+def cmd_perfect(args):
+    return "yes" if is_perfect(int(_need(1, args)[0])) else "no"
+
+
+def cmd_julian(args):
+    return str(julian_day(_need(1, args)[0]))
+
+
+def cmd_isbn(args):
+    return "yes" if isbn10_ok(_need(1, args)[0]) else "no"
+
+
 COMMANDS = {
     "greet": cmd_greet, "quote": cmd_quote, "fortune": cmd_fortune, "joke": cmd_joke,
     "why": cmd_why, "idea": cmd_idea, "tip": cmd_tip, "flip": cmd_flip, "dice": cmd_dice,
@@ -463,6 +485,8 @@ COMMANDS = {
     "pow": cmd_pow, "unb64": cmd_unb64, "hamming": cmd_hamming, "variance": cmd_variance,
     "nrange": cmd_nrange, "collatz": cmd_collatz, "xor": cmd_xor, "weekday": cmd_weekday,
     "digitsum": cmd_digitsum, "tri": cmd_tri, "isqrt": cmd_isqrt, "luhn": cmd_luhn,
+    "kebab": cmd_kebab, "pascal": cmd_pascal, "perfect": cmd_perfect, "julian": cmd_julian,
+    "isbn": cmd_isbn,
 }
 
 COMMAND_NAMES = list(COMMANDS)

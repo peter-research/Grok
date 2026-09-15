@@ -22,18 +22,17 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.26 restores the split source files and adds digitsum, tri, isqrt and luhn.
+See `python3 grok.py commands` for the full list. v0.27 reaches 100 commands and adds kebab, pascal, perfect, julian and isbn.
 
 ```bash
 python3 grok.py fact 5
 python3 grok.py mean 1 2 3
 python3 grok.py weekday 2026-09-15
-python3 grok.py digitsum 2026
-python3 grok.py tri 10
-python3 grok.py isqrt 144
-python3 grok.py luhn 79927398713
-python3 grok.py roman 2026
-python3 grok.py snake HelloGrok
+python3 grok.py kebab Hello Grok
+python3 grok.py pascal hello grok
+python3 grok.py perfect 28
+python3 grok.py julian 2026-09-15
+python3 grok.py isbn 0-306-40615-2
 python3 grok.py check
 ```
 

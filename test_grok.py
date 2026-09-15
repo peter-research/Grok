@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 95)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 100)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.26.0")
+        self.assertEqual(grok.VERSION, "0.27.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
@@ -138,6 +138,16 @@ class GrokHelpersTest(unittest.TestCase):
         self.assertEqual(grok.isqrt_int(144), 12)
         self.assertTrue(grok.luhn_ok("79927398713"))
         self.assertFalse(grok.luhn_ok("123"))
+
+    def test_kebab_pascal_perfect_julian_isbn(self) -> None:
+        self.assertEqual(grok.to_kebab("Hello, Grok!"), "hello-grok")
+        self.assertEqual(grok.to_pascal("hello grok"), "HelloGrok")
+        self.assertTrue(grok.is_perfect(6))
+        self.assertTrue(grok.is_perfect(28))
+        self.assertFalse(grok.is_perfect(12))
+        self.assertEqual(grok.julian_day("2026-09-15"), 258)
+        self.assertTrue(grok.isbn10_ok("0-306-40615-2"))
+        self.assertFalse(grok.isbn10_ok("123"))
 
 
 if __name__ == "__main__":

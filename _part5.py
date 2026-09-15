@@ -72,3 +72,51 @@ def luhn_ok(text: str) -> bool:
                 d -= 9
         total += d
     return total % 10 == 0
+
+
+def to_kebab(text: str) -> str:
+    return slugify(text)
+
+
+def to_pascal(text: str) -> str:
+    parts = [p for p in slugify(text).split("-") if p]
+    return "".join(p[:1].upper() + p[1:] for p in parts)
+
+
+def is_perfect(n: int) -> bool:
+    if n < 2:
+        return False
+    total = 1
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            total += i
+            other = n // i
+            if other != i and other != n:
+                total += other
+        i += 1
+    return total == n
+
+
+def julian_day(iso: str) -> int:
+    return date.fromisoformat(iso).timetuple().tm_yday
+
+
+def isbn10_ok(text: str) -> bool:
+    chars = [c.upper() for c in text if c.isalnum()]
+    if len(chars) != 10:
+        return False
+    total = 0
+    for i, c in enumerate(chars):
+        if i < 9:
+            if not c.isdigit():
+                return False
+            total += int(c) * (10 - i)
+        else:
+            if c == "X":
+                total += 10
+            elif c.isdigit():
+                total += int(c)
+            else:
+                return False
+    return total % 11 == 0
