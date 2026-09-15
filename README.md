@@ -10,7 +10,7 @@ The point is a repo Grok can improve, experiment with, and push to.
 | Path | Role |
 | --- | --- |
 | `grok.py` | Loader that concatenates `_part*.py` (stdlib only) |
-| `_part1.py` … `_part15.py` | Original CLI pieces |
+| `_part1.py` … `_part16.py` | Original CLI pieces |
 | `index.html` | One-page landing, no dependencies |
 | `test_grok.py` | Stdlib unit tests |
 | `CONTRIBUTING.md` | How to play with this repo |
@@ -22,7 +22,7 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.38 reaches 155 commands and adds armstrong, nextprime, binarygap, harmonic and twins.
+See `python3 grok.py commands` for the full list. v0.39 reaches 160 commands and adds harshad, pronic, totient, persist and pentagonal.
 
 ```bash
 python3 grok.py fact 5
@@ -88,6 +88,11 @@ python3 grok.py nextprime 14
 python3 grok.py binarygap 9
 python3 grok.py harmonic 4
 python3 grok.py twins 5
+python3 grok.py harshad 18
+python3 grok.py pronic 12
+python3 grok.py totient 9
+python3 grok.py persist 39
+python3 grok.py pentagonal 5
 python3 grok.py check
 ```
 
