@@ -21,13 +21,18 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.24 adds mode, stddev, pow, unb64 and hamming (still stdlib only).
+See `python3 grok.py commands` for the full list. v0.25 adds variance, nrange, collatz, xor and weekday (still stdlib only).
 
 ```bash
 python3 grok.py fact 5
 python3 grok.py mean 1 2 3
 python3 grok.py mode 1 2 2 3
 python3 grok.py stddev 2 4 4 4 5 5 7 9
+python3 grok.py variance 2 4 4 4 5 5 7 9
+python3 grok.py nrange 3 1 8
+python3 grok.py collatz 6
+python3 grok.py xor hi 1
+python3 grok.py weekday 2026-09-15
 python3 grok.py pow 2 10
 python3 grok.py roman 2026
 python3 grok.py snake HelloGrok
