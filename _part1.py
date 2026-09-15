@@ -12,7 +12,7 @@ from collections import Counter
 from datetime import date, datetime
 from math import log2
 
-VERSION = "0.39.0"
+VERSION = "0.40.0"
 
 QUOTES = [
     "Understand the universe. Then maybe have a snack.",
