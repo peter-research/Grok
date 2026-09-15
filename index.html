@@ -2,12 +2,12 @@
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grok playground</title>
 <style>:root{color-scheme:dark;--bg:#0b0d10;--fg:#e8edf2;--muted:#9aa7b4;--accent:#67e8f9;--card:#111827;--border:#1f2937}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,sans-serif;background:radial-gradient(900px 500px at 15% -5%,#1a2a3a 0%,transparent 55%),var(--bg);color:var(--fg);padding:2rem 1.25rem}main{max-width:58rem;margin:auto}h1{font-size:clamp(2.1rem,6vw,3.6rem);letter-spacing:-.045em;margin:0 0 .4rem}.tag{display:inline-block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid #334155;padding:.2rem .55rem;border-radius:999px;margin-bottom:.9rem}p{color:var(--muted);line-height:1.65}code{color:var(--accent)}button{border:1px solid #334155;background:var(--card);color:var(--fg);padding:.65rem 1rem;border-radius:999px;cursor:pointer;margin:.2rem}button:hover{border-color:var(--accent)}#line{margin-top:1.1rem;min-height:1.6em;white-space:pre-wrap}.sheet{margin-top:1.85rem;padding:1.05rem 1.15rem;border:1px solid var(--border);border-radius:1rem}footer{margin-top:1.75rem;font-size:.85rem;color:var(--muted)}footer a{color:var(--accent);text-decoration:none}</style></head>
-<body><main><span class="tag">playground · v0.31</span><h1>Grok</h1>
-<p>He does what he wants. A tiny original playground: 120 dependency-free CLI commands, still original and wired.</p>
-<p>Try <code>python3 grok.py sign -7</code> or <code>python3 grok.py revint 120</code>.</p>
+<body><main><span class="tag">playground · v0.32</span><h1>Grok</h1>
+<p>He does what he wants. A tiny original playground: 125 dependency-free CLI commands, still original and wired.</p>
+<p>Try <code>python3 grok.py palnum 121</code> or <code>python3 grok.py prod 2 3 4</code>.</p>
 <div id="buttons"></div>
 <p id="line">Pick a command. Make the repo do something.</p>
-<section class="sheet"><h2>CLI — 120 commands</h2><ul id="cli"></ul></section>
+<section class="sheet"><h2>CLI — 125 commands</h2><ul id="cli"></ul></section>
 <footer>Original code only · <a href="https://github.com/peter-research/Grok">peter-research/Grok</a></footer></main>
 <script>
 const lines=["Understand the universe. Then maybe have a snack.","Curiosity is a feature, not a bug.","He does what he wants — within the rules of the playground.","Small tools, shipped often, beat grand plans that never leave the editor."];
@@ -28,9 +28,11 @@ const commands=[
   ['square','Square?',()=>{const n=Number(ask('n','16'))|0;if(n<0)return 'range';const r=Math.floor(Math.sqrt(n));return r*r===n?'yes':'no'}],
   ['cube','Cube',()=>{const n=Number(ask('n','3'))|0;return String(n*n*n)}],
   ['sign','Sign',()=>{const n=Number(ask('n','-7'))|0;return String(n>0?1:n<0?-1:0)}],
-  ['revint','Reverse int',()=>{let n=Number(ask('n','120'))|0;const s=n<0?-1:1;return String(s*Number(String(Math.abs(n)).split('').reverse().join('')))}]
+  ['revint','Reverse int',()=>{let n=Number(ask('n','120'))|0;const s=n<0?-1:1;return String(s*Number(String(Math.abs(n)).split('').reverse().join('')))}],
+  ['palnum','Palindrome int?',()=>{const n=String(Math.abs(Number(ask('n','121'))|0));return n===n.split('').reverse().join('')?'yes':'no'}],
+  ['prod','Product',()=>{const t=ask('Numbers','2 3 4');return String(t.trim().split(/\s+/).map(Number).reduce((a,b)=>a*b,1))}]
 ];
-const all=['greet','quote','fortune','joke','why','idea','tip','flip','dice','color','now','week','day','echo','version','about','check','rot13','slug','hash','uuid','palindrome','pick','sample','shuffle','reverse','count','wrap','b64','sum','title','upper','lower','words','lines','chars','sort','dedupe','join','split','anagram','initials','indent','percent','clamp','random','commands','repeat','morse','unique','yesno','leet','vowels','bin','hex','caesar','consonants','pig','ascii','snake','camel','nato','freq','entropy','lev','rle','box','roman','unroman','isogram','tap','fib','prime','gcd','lcm','unrle','fact','mean','median','revwords','factors','mode','stddev','pow','unb64','hamming','variance','nrange','collatz','xor','weekday','digitsum','tri','isqrt','luhn','kebab','pascal','perfect','julian','isbn','oct','pangram','until','droot','bits','isbn13','leap','swap','c2f','abundant','f2c','deficient','square','cube','mid','sign','even','odd','abs','revint'];
+const all=['greet','quote','fortune','joke','why','idea','tip','flip','dice','color','now','week','day','echo','version','about','check','rot13','slug','hash','uuid','palindrome','pick','sample','shuffle','reverse','count','wrap','b64','sum','title','upper','lower','words','lines','chars','sort','dedupe','join','split','anagram','initials','indent','percent','clamp','random','commands','repeat','morse','unique','yesno','leet','vowels','bin','hex','caesar','consonants','pig','ascii','snake','camel','nato','freq','entropy','lev','rle','box','roman','unroman','isogram','tap','fib','prime','gcd','lcm','unrle','fact','mean','median','revwords','factors','mode','stddev','pow','unb64','hamming','variance','nrange','collatz','xor','weekday','digitsum','tri','isqrt','luhn','kebab','pascal','perfect','julian','isbn','oct','pangram','until','droot','bits','isbn13','leap','swap','c2f','abundant','f2c','deficient','square','cube','mid','sign','even','odd','abs','revint','palnum','digits','prod','minn','maxn'];
 const out=document.getElementById('line');
 commands.forEach(([,label,fn])=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>{out.textContent=fn()};document.getElementById('buttons').appendChild(b)});
 all.forEach(c=>{const li=document.createElement('li');li.textContent='python3 grok.py '+c;document.getElementById('cli').appendChild(li)});
