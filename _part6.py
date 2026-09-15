@@ -99,6 +99,11 @@ def cmd_check(_args):
     assert is_pangram("The quick brown fox jumps over the lazy dog")
     assert digital_root(38) == 2
     assert popcount(13) == 3
+    assert isbn13_ok("978-0-306-40615-7")
+    assert is_leap(2024)
+    assert swap_case("Hi") == "hI"
+    assert celsius_to_f(100) == 212.0
+    assert is_abundant(12)
     return "check ok"
 
 
@@ -485,6 +490,26 @@ def cmd_bits(args):
     return str(popcount(int(_need(1, args)[0])))
 
 
+def cmd_isbn13(args):
+    return "yes" if isbn13_ok(_need(1, args)[0]) else "no"
+
+
+def cmd_leap(args):
+    return "yes" if is_leap(int(_need(1, args)[0])) else "no"
+
+
+def cmd_swap(args):
+    return swap_case(" ".join(_need(1, args, "text")))
+
+
+def cmd_c2f(args):
+    return str(celsius_to_f(float(_need(1, args)[0])))
+
+
+def cmd_abundant(args):
+    return "yes" if is_abundant(int(_need(1, args)[0])) else "no"
+
+
 COMMANDS = {
     "greet": cmd_greet, "quote": cmd_quote, "fortune": cmd_fortune, "joke": cmd_joke,
     "why": cmd_why, "idea": cmd_idea, "tip": cmd_tip, "flip": cmd_flip, "dice": cmd_dice,
@@ -510,7 +535,8 @@ COMMANDS = {
     "digitsum": cmd_digitsum, "tri": cmd_tri, "isqrt": cmd_isqrt, "luhn": cmd_luhn,
     "kebab": cmd_kebab, "pascal": cmd_pascal, "perfect": cmd_perfect, "julian": cmd_julian,
     "isbn": cmd_isbn, "oct": cmd_oct, "pangram": cmd_pangram, "until": cmd_until,
-    "droot": cmd_droot, "bits": cmd_bits,
+    "droot": cmd_droot, "bits": cmd_bits, "isbn13": cmd_isbn13, "leap": cmd_leap,
+    "swap": cmd_swap, "c2f": cmd_c2f, "abundant": cmd_abundant,
 }
 
 COMMAND_NAMES = list(COMMANDS)
