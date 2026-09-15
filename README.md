@@ -22,87 +22,16 @@ Nothing here is copied from another project. No third-party libraries.
 
 Needs Python 3. No packages.
 
-See `python3 grok.py commands` for the full list. v0.41 reaches 170 commands and adds smith, automorphic, lucas, squarefree and duck.
+See `python3 grok.py commands` for the full list. v0.41 ships 165 unique commands and adds smith, automorphic, lucas, squarefree and duck. The loader now runs `main` only after every part is loaded, so new commands actually work from the CLI.
 
 ```bash
-python3 grok.py fact 5
-python3 grok.py mean 1 2 3
-python3 grok.py weekday 2026-09-15
-python3 grok.py kebab Hello Grok
-python3 grok.py pascal hello grok
-python3 grok.py perfect 28
-python3 grok.py julian 2026-09-15
-python3 grok.py isbn 0-306-40615-2
-python3 grok.py oct 64
-python3 grok.py pangram The quick brown fox jumps over the lazy dog
-python3 grok.py until 2026-12-31
-python3 grok.py droot 38
-python3 grok.py bits 13
-python3 grok.py isbn13 978-0-306-40615-7
-python3 grok.py leap 2024
-python3 grok.py swap Hello
-python3 grok.py c2f 100
-python3 grok.py abundant 12
-python3 grok.py f2c 212
-python3 grok.py deficient 8
-python3 grok.py square 16
-python3 grok.py cube 3
-python3 grok.py mid Grok
-python3 grok.py sign -7
-python3 grok.py even 8
-python3 grok.py odd 9
-python3 grok.py abs -12
-python3 grok.py revint 120
-python3 grok.py palnum 121
-python3 grok.py digits 120
-python3 grok.py prod 2 3 4
-python3 grok.py minn 3 1 8
-python3 grok.py maxn 3 1 8
-python3 grok.py floor 3.7
-python3 grok.py ceil 3.2
-python3 grok.py roundn 3.14159 2
-python3 grok.py mod 10 3
-python3 grok.py coprime 8 15
-python3 grok.py hypot 3 4
-python3 grok.py lcm 4 6
-python3 grok.py isqrt 16
-python3 grok.py median 1 3 2 4
-python3 grok.py powint 2 10
-python3 grok.py ncr 5 2
-python3 grok.py npr 5 2
-python3 grok.py cbrt 27
-python3 grok.py geomean 1 4 16
-python3 grok.py xorstr ab cd
-python3 grok.py popcnt 13
-python3 grok.py gray 7
-python3 grok.py ungray 4
-python3 grok.py soundex Robert
-python3 grok.py b32 hi
-python3 grok.py isogram Grok
-python3 grok.py vowels Grok
-python3 grok.py cons Grok
-python3 grok.py rotl 1 Grok
-python3 grok.py rotr 1 Grok
-python3 grok.py armstrong 153
-python3 grok.py nextprime 14
-python3 grok.py binarygap 9
-python3 grok.py harmonic 4
-python3 grok.py twins 5
-python3 grok.py harshad 18
-python3 grok.py pronic 12
-python3 grok.py totient 9
-python3 grok.py persist 39
-python3 grok.py pentagonal 5
-python3 grok.py hexagonal 6
-python3 grok.py happy 19
-python3 grok.py kaprekar 297
-python3 grok.py catalan 5
-python3 grok.py aliquot 12
 python3 grok.py smith 22
 python3 grok.py automorphic 25
 python3 grok.py lucas 5
 python3 grok.py squarefree 10
 python3 grok.py duck 101
+python3 grok.py happy 19
+python3 grok.py catalan 5
 python3 grok.py check
 ```
 
