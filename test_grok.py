@@ -44,15 +44,15 @@ class GrokHelpersTest(unittest.TestCase):
 
     def test_command_names_are_unique(self) -> None:
         self.assertEqual(len(grok.COMMAND_NAMES), len(set(grok.COMMAND_NAMES)))
-        self.assertEqual(len(grok.COMMAND_NAMES), 120)
-        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn", "oct", "pangram", "until", "droot", "bits", "isbn13", "leap", "swap", "c2f", "abundant", "f2c", "deficient", "square", "cube", "mid", "sign", "even", "odd", "abs", "revint"):
+        self.assertEqual(len(grok.COMMAND_NAMES), 125)
+        for name in ("roman", "snake", "camel", "caesar", "rle", "hash", "dice", "mode", "unb64", "hamming", "variance", "collatz", "xor", "weekday", "nrange", "digitsum", "tri", "isqrt", "luhn", "kebab", "pascal", "perfect", "julian", "isbn", "oct", "pangram", "until", "droot", "bits", "isbn13", "leap", "swap", "c2f", "abundant", "f2c", "deficient", "square", "cube", "mid", "sign", "even", "odd", "abs", "revint", "palnum", "digits", "prod", "minn", "maxn"):
             self.assertIn(name, grok.COMMAND_NAMES)
 
     def test_version_looks_like_semver(self) -> None:
         parts = grok.VERSION.split(".")
         self.assertEqual(len(parts), 3)
         self.assertTrue(all(p.isdigit() for p in parts))
-        self.assertEqual(grok.VERSION, "0.31.0")
+        self.assertEqual(grok.VERSION, "0.32.0")
 
     def test_factorial(self) -> None:
         self.assertEqual(grok.factorial_int(0), 1)
